@@ -3,7 +3,7 @@ let fish = {};
 let fishLength = () => Object.values(fish).reduce((ac, a) => ac + a, 0);
 let fishingRecharge = 0;
 
-let fishingDelay = () => 3 * 0.9 ** UPGRADES.fishingdelay.bought;
+let fishingDelay = () => 3 * 0.85 ** UPGRADES.fishingdelay.bought;
 
 function f(n, decimals = 2) {
   if (typeof n === "string" || !n) return n;
