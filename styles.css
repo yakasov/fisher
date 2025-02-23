@@ -1,0 +1,30 @@
+body {
+  background-color: #0C0D0C;
+  color: #F1F1F1;
+}
+
+.top-display {
+  width: 100%;
+}
+
+.main {
+  margin: 5% 5%;
+}
+
+.center {
+  text-align: center;
+}
+
+.left {
+  width: 50%;
+  float: left;
+}
+
+.right {
+  width: 50%;
+  float: right;
+}
+
+.mini-right {
+  margin-right: 4px;
+}
