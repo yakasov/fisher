@@ -3,7 +3,7 @@ let fish = {};
 let fishLength = () => Object.values(fish).reduce((ac, a) => ac + a, 0);
 let fishingRecharge = 0;
 
-let fishingDelay = () => 3 * 0.85 ** UPGRADES.fishingdelay.bought;
+let fishingDelay = () => 3 * 0.875 ** UPGRADES.fishingdelay.bought;
 
 function f(n, decimals = 2) {
   if (typeof n === "string" || !n) return n;
@@ -52,9 +52,9 @@ function getFishDisplay() {
 
   Object.entries(fish).forEach(([fishName, fishAmount]) => {
     const upperFishName = fishName.charAt(0).toUpperCase() + fishName.slice(1);
-    text += `<span class="left"><img src="images/${upperFishName}.png" height="12" width="12" class="mini-right">${upperFishName}: ${fishAmount}</span><span class="right"><button onclick="sellFish('${fishName}')" ${
+    text += `<div class="fish-line"><span class="left"><img src="images/${upperFishName}.png" height="12" width="12" class="mini-right">${upperFishName}: ${fishAmount}</span><span class="right"><button onclick="sellFish('${fishName}')" ${
       fishAmount === 0 ? 'disabled=""' : ""
-    }>Sell for ${FISH_DICT[fishName].value}$</button></span><br>`;
+    }>Sell for ${FISH_DICT[fishName].value}$</button></span></div><br>`;
   });
 
   return text;

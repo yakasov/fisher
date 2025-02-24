@@ -1,6 +1,6 @@
 const UPGRADES = {
   "fishingdelay": {
     "bought": 0,
-    "cost": (n) => new Decimal(5 * (1.2 ** n)),
+    "cost": (n) => new Decimal(5 * (2 ** n)),
   }
 }
