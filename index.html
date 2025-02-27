@@ -22,11 +22,41 @@
           <br /><br />
 
           <p>
-            <span class="left">
-              Reduce fishing recharge delay by 12.5%
+            <span class="left"> Reduce fishing recharge delay by 12.5% </span>
+            <span class="right align-right">
+              <span class="left" id="fishingdelay-mult">( 1.00x )</span>
+              <button
+                id="fishingdelay-upgrade"
+                onclick="buyUpgrade('fishingdelay')"
+              >
+                Buy for 5$
+              </button>
             </span>
-            <span class="right">
-              <button id="fishingdelay-upgrade" onclick="buyUpgrade('fishingdelay')">Buy for 5$</button>
+          </p>
+          <br />
+          <p>
+            <span class="left"> Increase fish sell value by 25% </span>
+            <span class="right align-right">
+              <span class="left" id="fishingvalue-mult">( 1.00x )</span>
+              <button
+                id="fishingvalue-upgrade"
+                onclick="buyUpgrade('fishingvalue')"
+              >
+                Buy for 10$
+              </button>
+            </span>
+          </p>
+
+          <br /><br /><br />
+          <p>
+            <span class="left"> Unlock scrap fishing </span>
+            <span class="right align-right">
+              <button
+                id="scrapfishing-upgrade"
+                onclick="buyPermanent('scrapfishing')"
+              >
+                Buy for 50$
+              </button>
             </span>
           </p>
         </div>

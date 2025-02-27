@@ -1,6 +1,6 @@
 body {
-  background-color: #0C0D0C;
-  color: #F1F1F1;
+  background-color: #0c0d0c;
+  color: #f1f1f1;
 }
 
 .top-display {
@@ -23,6 +23,14 @@ body {
 .right {
   width: 50%;
   float: right;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
 }
 
 .mini-right {

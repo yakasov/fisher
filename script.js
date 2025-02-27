@@ -2,11 +2,15 @@ let money = new Decimal(0);
 let fish = {};
 let fishLength = () => Object.values(fish).reduce((ac, a) => ac + a, 0);
 let fishingRecharge = 0;
+let allowedFish = ["common"];
 
 let fishingDelay = () => 3 * 0.875 ** UPGRADES.fishingdelay.bought;
+let fishingValueMult = () => 1 * 1.25 ** UPGRADES.fishingvalue.bought;
 
 function f(n, decimals = 2) {
   if (typeof n === "string" || !n) return n;
+  if (typeof n === "bigint" || typeof n === "number")
+    return f(new Decimal(n), decimals);
   if (n.lt(1e3)) return n.toFixed(decimals);
 
   const ns = n.toString();
@@ -40,10 +44,17 @@ function goFish() {
 }
 
 function getRandomFish() {
+  calculateFishChances(allowedFish);
+
   const randomChance = Math.random() * 100;
-  const randomFish = Object.entries(FISH_DICT).find(
+  const highestChance = Object.entries(FISH_DICT).sort(
+    ([, va], [, vb]) => vb.chance - va.chance
+  )[0][0];
+  let randomFish = Object.entries(FISH_DICT).find(
     ([, v]) => v.chance > randomChance
   );
+
+  if (!randomFish) randomFish = [highestChance, FISH_DICT[highestChance]];
   return randomFish;
 }
 
@@ -51,10 +62,14 @@ function getFishDisplay() {
   let text = "";
 
   Object.entries(fish).forEach(([fishName, fishAmount]) => {
-    const upperFishName = fishName.charAt(0).toUpperCase() + fishName.slice(1);
+    const upperFishName =
+      FISH_DICT[fishName].name ??
+      fishName.charAt(0).toUpperCase() + fishName.slice(1);
     text += `<div class="fish-line"><span class="left"><img src="images/${upperFishName}.png" height="12" width="12" class="mini-right">${upperFishName}: ${fishAmount}</span><span class="right"><button onclick="sellFish('${fishName}')" ${
       fishAmount === 0 ? 'disabled=""' : ""
-    }>Sell for ${FISH_DICT[fishName].value}$</button></span></div><br>`;
+    }>Sell for ${f(
+      FISH_DICT[fishName].value * fishingValueMult()
+    )}$</button></span></div><br>`;
   });
 
   return text;
@@ -63,7 +78,7 @@ function getFishDisplay() {
 function sellFish(fishName, all = false) {
   if (fish[fishName] > 0) {
     fish[fishName] = fish[fishName] - 1;
-    money = money.add(FISH_DICT[fishName].value);
+    money = money.add(FISH_DICT[fishName].value * fishingValueMult());
 
     if (all) sellFish(fishName, true);
   }
@@ -87,23 +102,59 @@ function buyUpgrade(upgrade) {
   updateOnDemand();
 }
 
+function buyPermanent(upgrade) {
+  const u = PERMANENTS[upgrade];
+  if (money.gte(u.cost) && !u.bought) {
+    money = money.sub(u.cost);
+    u.bought = true;
+  }
+
+  switch (upgrade) {
+    case "scrapfishing":
+      allowedFish.push("scrap");
+      break;
+    default:
+      break;
+  }
+
+  updateOnDemand();
+}
+
 function updateDisplays() {
   document.getElementById("money-display").innerText = `You have ${f(money)}$.`;
   document.getElementById(
     "fish-count-display"
   ).innerText = `You have ${fishLength()} fish.`;
   document.getElementById("fish-delay").innerText = `Fishing recharge: ${f(
-    new Decimal(fishingRecharge),
-    2
-  )}s\nMax recharge: ${f(new Decimal(fishingDelay()), 2)}s`;
+    fishingRecharge
+  )}s\nMax recharge: ${f(fishingDelay())}s`;
 }
 
 function updateOnDemand() {
+  let el;
+
   document.getElementById("fish-amounts").innerHTML = getFishDisplay();
   document.getElementById("sellall-button").disabled = fishLength() === 0;
+
   document.getElementById("fishingdelay-upgrade").innerText = `Buy for ${f(
     UPGRADES.fishingdelay.cost(UPGRADES.fishingdelay.bought)
   )}$`;
+  document.getElementById("fishingvalue-upgrade").innerText = `Buy for ${f(
+    UPGRADES.fishingvalue.cost(UPGRADES.fishingvalue.bought)
+  )}$`;
+
+  document.getElementById("fishingdelay-mult").innerText = `( ${f(
+    fishingDelay() / 3
+  )}x )`;
+  document.getElementById("fishingvalue-mult").innerText = `( ${f(
+    fishingValueMult()
+  )}x )`;
+
+  if (PERMANENTS.scrapfishing.bought) {
+    el = document.getElementById("scrapfishing-upgrade");
+    el.disabled = true;
+    el.innerText = "Bought!";
+  }
 }
 
 function updateFishingRecharge() {
@@ -122,6 +173,9 @@ function updateFishingRecharge() {
 function gameLoop() {
   updateDisplays();
   updateFishingRecharge();
+
+  // in case anybody wants to cheat but they don't realise it needs to be a Decimal
+  if (typeof money === "number") money = new Decimal(money);
 }
 
 setInterval(gameLoop, 25);
