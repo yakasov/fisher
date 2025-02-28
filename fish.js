@@ -70,7 +70,6 @@ function calculateFishChances(allowedFish) {
     .filter(([k]) => allowedFish.includes(k))
     .reduce((ac, [, v]) => ac + v, 0);
   const TYPE_MULT = 100 / TYPE_CHANCE;
-  console.warn(TYPE_CHANCE);
 
   const TOTAL_CHANCE = Object.values(RAW_FISH_DICT)
     .filter((v) => allowedFish.includes(v.type))

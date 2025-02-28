@@ -178,5 +178,8 @@ function gameLoop() {
   if (typeof money === "number") money = new Decimal(money);
 }
 
+loadGame();
+calculateFishChances(allowedFish);
 setInterval(gameLoop, 25);
+setInterval(saveGame, 5000);
 updateOnDemand();
