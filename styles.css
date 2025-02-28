@@ -40,3 +40,7 @@ body {
 .fish-line {
   padding: 3px 0;
 }
+
+.hidden {
+  display: none;
+}

@@ -65,11 +65,13 @@ function getFishDisplay() {
     const upperFishName =
       FISH_DICT[fishName].name ??
       fishName.charAt(0).toUpperCase() + fishName.slice(1);
-    text += `<div class="fish-line"><span class="left"><img src="images/${upperFishName}.png" height="12" width="12" class="mini-right">${upperFishName}: ${fishAmount}</span><span class="right"><button onclick="sellFish('${fishName}')" ${
-      fishAmount === 0 ? 'disabled=""' : ""
-    }>Sell for ${f(
-      FISH_DICT[fishName].value * fishingValueMult()
-    )}$</button></span></div><br>`;
+    text += `<div class="fish-line"><span class="left"><img src="images/${fishName}.png" height="12" width="12" class="mini-right">${upperFishName}: ${fishAmount}</span><span class="right"><button onclick="sellFish('${fishName}')" ${
+      fishAmount === 0 || FISH_DICT[fishName].noSell ? 'disabled=""' : ""
+    }>${
+      FISH_DICT[fishName].noSell
+        ? "Cannot sell"
+        : "Sell for " + f(FISH_DICT[fishName].value * fishingValueMult()) + "$"
+    }</button></span></div><br>`;
   });
 
   return text;
@@ -154,6 +156,8 @@ function updateOnDemand() {
     el = document.getElementById("scrapfishing-upgrade");
     el.disabled = true;
     el.innerText = "Bought!";
+
+    document.getElementById("crafting-scraprecipes").classList.remove("hidden");
   }
 }
 

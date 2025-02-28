@@ -35,26 +35,47 @@ const RAW_FISH_DICT = {
     value: 2,
   },
   chub: {
-    chance: 25,
+    chance: 20,
     type: "common",
     value: 2.5,
   },
-  junk: {
+  red_snapper: {
+    chance: 20,
+    name: "Red Snapper",
+    type: "common",
+    value: 2.5,
+  },
+  smallmouth_bass: {
+    chance: 20,
+    name: "Smallmouth Bass",
+    type: "common",
+    value: 2.5,
+  },
+  scrap: {
     chance: 66,
+    noSell: true,
     type: "scrap",
     value: 0.01,
   },
   rust: {
     chance: 34,
     name: "Rusted Metal",
+    noSell: true,
     type: "scrap",
     value: 0.05,
+  },
+  metal: {
+    chance: 15,
+    name: "Metal Parts",
+    type: "scrap",
+    value: 5,
   },
 };
 const FISH_TYPES = {
   common: 66,
   scrap: 34,
 };
+const CHANCE_MULTS = {};
 
 let FISH_DICT = {};
 let ALLOWED_FISH_CACHE = "";
@@ -71,21 +92,22 @@ function calculateFishChances(allowedFish) {
     .reduce((ac, [, v]) => ac + v, 0);
   const TYPE_MULT = 100 / TYPE_CHANCE;
 
-  const TOTAL_CHANCE = Object.values(RAW_FISH_DICT)
-    .filter((v) => allowedFish.includes(v.type))
-    .reduce((ac, a) => ac + a.chance, 0);
-  const CHANCE_MULT = 100 / TOTAL_CHANCE;
+  allowedFish.forEach((type) => {
+    const mult = Object.values(RAW_FISH_DICT)
+      .filter((v) => type === v.type)
+      .reduce((ac, a) => ac + a.chance, 0);
+    CHANCE_MULTS[type] = 100 / mult;
+  });
   let chance_acc = 0;
 
   Object.entries(RAW_FISH_DICT).forEach(([k, v]) => {
-    chance_acc +=
-      v.chance * CHANCE_MULT * ((FISH_TYPES[v.type] / 100) * TYPE_MULT);
+    chance_acc += v.chance * CHANCE_MULTS[v.type] * (FISH_TYPES[v.type] / 100);
     FISH_DICT[k] = {
       chance: chance_acc,
+      name: RAW_FISH_DICT[k].name ?? null,
+      noSell: RAW_FISH_DICT[k].noSell ?? null,
       type: v.type,
       value: v.value,
     };
-
-    if (RAW_FISH_DICT[k].name) FISH_DICT[k].name = RAW_FISH_DICT[k].name;
   });
 }

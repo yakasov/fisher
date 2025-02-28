@@ -8,6 +8,7 @@ function createSave() {
   );
 
   return {
+    allowedFish,
     fish,
     money,
     permanentsToSave,
@@ -26,6 +27,7 @@ function loadGame() {
 
   const loadedSave = JSON.parse(atob(rawSave));
 
+  allowedFish = loadedSave.allowedFish;
   Object.entries(loadedSave.fish).forEach(([k, v]) => (fish[k] = v));
   money = new Decimal(loadedSave.money);
   Object.entries(loadedSave.permanentsToSave).forEach(
