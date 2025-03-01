@@ -78,7 +78,7 @@ function getFishDisplay() {
 }
 
 function sellFish(fishName, all = false) {
-  if (fish[fishName] > 0) {
+  if (fish[fishName] > 0 && !fish[fishName].noSell) {
     fish[fishName] = fish[fishName] - 1;
     money = money.add(FISH_DICT[fishName].value * fishingValueMult());
 
