@@ -60,8 +60,8 @@
             </span>
           </p>
           <br />
-          <p>
-            <span class="hidden" id="crafting-scraprecipes">
+          <p class="hidden" id="crafting-scraprecipes">
+            <span>
               <button
                 id="crafting-scraptometal"
                 onclick="craft('scraptometal')"
@@ -71,7 +71,18 @@
               <button id="crafting-rusttometal" onclick="craft('rusttometal')">
                 Convert 3 Rusted Metal to Metal
               </button>
-            </span>
+            </p>
+              <span class="left"> Create an automatic fisher </span>
+              <span class="right align-right">
+                <span class="left" id="crafting-metalfisher-amount">0</span>
+                <button
+                  id="crafting-metalfisher"
+                  onclick="craft('metalfisher')"
+                >
+                  Craft for 5 Metal
+                </button>
+              </p>
+            </p>
           </p>
         </div>
       </div>
@@ -80,6 +91,7 @@
         <span id="fish-count-display">You have 0 fish.</span>
         <p><button id="sellall-button" onclick="sellAll()">Sell all</button></p>
         <p id="fish-amounts"></p>
+        <p id="scrap-amounts"></p>
       </div>
     </div>
   </body>

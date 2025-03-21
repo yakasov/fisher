@@ -12,6 +12,13 @@ function craft(recipe) {
         fish.metal = fish.metal + 1;
       }
       break;
+    case "metalfisher":
+      if (fish.metal >= 5) {
+        fish.metal = fish.metal - 5;
+        craftables.metalfisher = craftables.metalfisher + 1;
+        auto.metalfisher = currentTime + autofishingInterval();
+      }
+      break;
     default:
       break;
   }

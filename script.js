@@ -1,11 +1,22 @@
+let currentTime = 0;
 let money = new Decimal(0);
 let fish = {};
-let fishLength = () => Object.values(fish).reduce((ac, a) => ac + a, 0);
+let fishLength = () =>
+  Object.entries(fish)
+    .filter(([k]) => FISH_DICT[k].type !== "scrap")
+    .reduce((ac, [, a]) => ac + a, 0);
 let fishingRecharge = 0;
 let allowedFish = ["common"];
+let craftables = {
+  metalfisher: 0,
+};
+let auto = {
+  metalfisher: 0,
+};
 
 let fishingDelay = () => 3 * 0.875 ** UPGRADES.fishingdelay.bought;
 let fishingValueMult = () => 1 * 1.25 ** UPGRADES.fishingvalue.bought;
+let autofishingInterval = () => (fishingDelay() * 10) / craftables.metalfisher;
 
 function f(n, decimals = 2) {
   if (typeof n === "string" || !n) return n;
@@ -32,14 +43,14 @@ function f(n, decimals = 2) {
   return `${ns[0]}.${ns[1]}${ns[2]}e${getLength(n) - 1}`;
 }
 
-function goFish() {
+function goFish(auto = false) {
   const randomFish = getRandomFish();
   fish[randomFish[0]] =
     !fish[randomFish[0]] || fish[randomFish[0]] === 0
       ? (fish[randomFish[0]] = 1)
       : (fish[randomFish[0]] = fish[randomFish[0]] + 1);
 
-  fishingRecharge = fishingDelay();
+  if (!auto) fishingRecharge = fishingDelay();
   updateOnDemand();
 }
 
@@ -58,10 +69,19 @@ function getRandomFish() {
   return randomFish;
 }
 
-function getFishDisplay() {
+function autoFish() {
+  if (craftables.metalfisher > 0 && auto.metalfisher <= currentTime) {
+    goFish(true);
+    auto.metalfisher = currentTime + autofishingInterval();
+  }
+}
+
+function getFishDisplay(type) {
   let text = "";
 
   Object.entries(fish).forEach(([fishName, fishAmount]) => {
+    if (FISH_DICT[fishName].type !== type) return;
+
     const upperFishName =
       FISH_DICT[fishName].name ??
       fishName.charAt(0).toUpperCase() + fishName.slice(1);
@@ -78,7 +98,9 @@ function getFishDisplay() {
 }
 
 function sellFish(fishName, all = false) {
-  if (fish[fishName] > 0 && !fish[fishName].noSell) {
+  if (FISH_DICT[fishName].noSell || fishName === "metal") return;
+
+  if (fish[fishName] > 0) {
     fish[fishName] = fish[fishName] - 1;
     money = money.add(FISH_DICT[fishName].value * fishingValueMult());
 
@@ -129,13 +151,18 @@ function updateDisplays() {
   ).innerText = `You have ${fishLength()} fish.`;
   document.getElementById("fish-delay").innerText = `Fishing recharge: ${f(
     fishingRecharge
-  )}s\nMax recharge: ${f(fishingDelay())}s`;
+  )}s\nMax recharge: ${f(fishingDelay())}s${
+    craftables.metalfisher > 0
+      ? "\nAuto-fishing every " + f(autofishingInterval()) + "s"
+      : ""
+  }`;
 }
 
 function updateOnDemand() {
   let el;
 
-  document.getElementById("fish-amounts").innerHTML = getFishDisplay();
+  document.getElementById("fish-amounts").innerHTML = getFishDisplay("common");
+  document.getElementById("scrap-amounts").innerHTML = getFishDisplay("scrap");
   document.getElementById("sellall-button").disabled = fishLength() === 0;
 
   document.getElementById("fishingdelay-upgrade").innerText = `Buy for ${f(
@@ -151,6 +178,10 @@ function updateOnDemand() {
   document.getElementById("fishingvalue-mult").innerText = `( ${f(
     fishingValueMult()
   )}x )`;
+
+  document.getElementById("crafting-metalfisher-amount").innerText = `${
+    craftables.metalfisher
+  } Handmade Fisher${craftables.metalfisher === 1 ? "" : "s"}`;
 
   if (PERMANENTS.scrapfishing.bought) {
     el = document.getElementById("scrapfishing-upgrade");
@@ -175,8 +206,10 @@ function updateFishingRecharge() {
 }
 
 function gameLoop() {
+  currentTime += 0.025;
   updateDisplays();
   updateFishingRecharge();
+  autoFish();
 
   // in case anybody wants to cheat but they don't realise it needs to be a Decimal
   if (typeof money === "number") money = new Decimal(money);
