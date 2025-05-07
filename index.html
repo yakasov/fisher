@@ -17,7 +17,16 @@
       <button class="tab-btn active" onclick="switchTab('main-tab')">
         Fishing
       </button>
-      <button class="tab-btn" onclick="switchTab('settings-tab')">Settings</button>
+      <button
+        id="permits-tab-button"
+        class="tab-btn"
+        onclick="switchTab('permits-tab')"
+      >
+        Permits
+      </button>
+      <button class="tab-btn" onclick="switchTab('settings-tab')">
+        Settings
+      </button>
     </div>
 
     <div id="main-tab" class="tab-content">
@@ -107,8 +116,8 @@
               </div>
             </div>
 
-            <div class="upgrade-group">
-              <div id="crafting-automaticfishers" class="upgrade-row hidden">
+            <div id="crafting-automaticfishers" class="upgrade-group hidden">
+              <div class="upgrade-row">
                 <div>Create an automatic fisher</div>
                 <div>
                   <span id="crafting-metalfisher-amount">0</span>
@@ -150,6 +159,98 @@
             <div id="scrap-amounts"></div>
           </div>
         </section>
+      </div>
+    </div>
+
+    <div id="permits-tab" class="tab-content" style="display: none">
+      <div class="center" style="margin-top: 2rem">
+        <h2>Permits</h2>
+        <div class="permits-grid">
+          <div class="permit-cell">
+            <div class="permit-title">Lake Fishing Permit</div>
+            <div class="permit-content">Allows you to catch lake fish.</div>
+            <div class="permit-cost">
+              <b>Requirements:</b><br />
+              5,000$
+            </div>
+          </div>
+          <div class="permit-cell bought">
+            <div class="permit-title">Fishing Tournaments</div>
+            <div class="permit-content">
+              Opens up entry to fishing challenges.
+            </div>
+            <div class="permit-cost">
+              <b>Requirements:</b><br />
+              5,000 fish caught
+            </div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Ocean Fishing Permit</div>
+            <div class="permit-content">Allows you to catch ocean fish.</div>
+            <div class="permit-cost">
+              <b>Requirements:</b><br />
+              4 tournament completions
+            </div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Employment Permit</div>
+            <div class="permit-content">
+              Allows you to hire staff to help automate things.
+            </div>
+            <div class="permit-cost">
+              <b>Requirements:</b><br />
+              250,000$
+            </div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 5</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 6</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 7</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 8</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 9</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 10</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 11</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 12</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 13</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 14</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 15</div>
+            <div class="permit-content">???</div>
+          </div>
+          <div class="permit-cell" disabled>
+            <div class="permit-title">Permit 16</div>
+            <div class="permit-content">???</div>
+          </div>
+        </div>
       </div>
     </div>
 

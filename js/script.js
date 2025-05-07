@@ -25,16 +25,16 @@ function buyPermanent(upgrade) {
   if (money.gte(u.cost) && !u.bought) {
     money = money.sub(u.cost);
     u.bought = true;
-  }
 
-  switch (upgrade) {
-    case "scrapfishing":
-      allowedFish.push("scrap");
-      break;
-    default:
-      break;
+    switch (upgrade) {
+      case "scrapfishing":
+        allowedFish.push("scrap");
+        break;
+      default:
+        break;
+    }
   }
-
+  
   DisplayFunctions.updateOnDemand();
 }
 
