@@ -1,11 +1,7 @@
 let currentTime = 0;
 let money = new Decimal(0);
 let fish = {};
-let fishLength = () =>
-  Object.entries(fish)
-    .filter(([k]) => FISH_DICT[k].type !== "scrap")
-    .reduce((ac, [, a]) => ac + a, 0);
-let fishingRecharge = 0;
+
 let allowedFish = ["common"];
 let craftables = {
   metalfisher: 0,
@@ -44,15 +40,15 @@ function buyPermanent(upgrade) {
 
 function updateFishingRecharge() {
   const goFishButton = document.getElementById("gofish-button");
-  if (fishingRecharge === 0) {
+  if (FishFunctions.fishingRecharge === 0) {
     goFishButton.disabled = false;
   } else if (!goFishButton.disabled) {
     goFishButton.disabled = true;
   }
 
   // Improve this hack for slight maths inaccuracy
-  if (fishingRecharge > 0) fishingRecharge -= 0.025;
-  if (fishingRecharge < 0) fishingRecharge = 0;
+  if (FishFunctions.fishingRecharge > 0) FishFunctions.fishingRecharge -= 0.025;
+  if (FishFunctions.fishingRecharge < 0) FishFunctions.fishingRecharge = 0;
 }
 
 function gameLoop() {

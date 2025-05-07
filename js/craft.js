@@ -13,9 +13,15 @@ let CraftFunctions = {
           fish.metal = (fish.metal ?? 0) + 1;
         }
         break;
+      case "alltometal":
+        while (fish.scrap >= 5 || fish.rust >= 3) {
+          this.craft("scraptometal");
+          this.craft("rusttometal");
+        }
+        break;
       case "metalfisher":
-        if (fish.metal >= this.craftCost('metalfisher')) {
-          fish.metal = fish.metal - this.craftCost('metalfisher');
+        if (fish.metal >= this.craftCost("metalfisher")) {
+          fish.metal = fish.metal - this.craftCost("metalfisher");
           craftables.metalfisher = craftables.metalfisher + 1;
           auto.metalfisher = currentTime + Effects.autofishingInterval();
         }

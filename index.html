@@ -13,114 +13,151 @@
       <h2 id="money-display">You have 0$.</h2>
     </div>
 
-    <div class="main flex-row">
-      <!-- Left Panel -->
-      <section class="panel">
-        <div class="center">
-          <button id="gofish-button" onclick="FishFunctions.goFish()">Go fish</button>
-          <p id="fish-delay">Fishing recharge: 0.00s</p>
-        </div>
+    <div class="tab-bar center">
+      <button class="tab-btn active" onclick="switchTab('main-tab')">
+        Fishing
+      </button>
+      <button class="tab-btn" onclick="switchTab('settings-tab')">Settings</button>
+    </div>
 
-        <div class="upgrade-list">
-          <div class="upgrade-group">
-            <div class="upgrade-row">
-              <div>Reduce fishing recharge delay by 12.5%</div>
-              <div>
-                <span id="fishingdelay-mult">( 1.00x )</span>
-                <button
-                  id="fishingdelay-upgrade"
-                  onclick="buyUpgrade('fishingdelay')"
-                >
-                  Buy for 5$
-                </button>
+    <div id="main-tab" class="tab-content">
+      <div class="main flex-row">
+        <section class="panel">
+          <div class="center">
+            <button id="gofish-button" onclick="FishFunctions.goFish()">
+              Go fish
+            </button>
+            <p id="fish-delay">Fishing recharge: 0.00s</p>
+          </div>
+
+          <div class="upgrade-list">
+            <div class="upgrade-group">
+              <div class="upgrade-row">
+                <div>Reduce fishing recharge delay by 12.5%</div>
+                <div>
+                  <span id="fishingdelay-mult">( 1.00x )</span>
+                  <button
+                    id="fishingdelay-upgrade"
+                    onclick="buyUpgrade('fishingdelay')"
+                  >
+                    Buy for 5$
+                  </button>
+                </div>
+              </div>
+              <div class="upgrade-row">
+                <div>Increase fish sell value by 25%</div>
+                <div>
+                  <span id="fishingvalue-mult">( 1.00x )</span>
+                  <button
+                    id="fishingvalue-upgrade"
+                    onclick="buyUpgrade('fishingvalue')"
+                  >
+                    Buy for 10$
+                  </button>
+                </div>
+              </div>
+              <div class="upgrade-row">
+                <div>Increase bucket capacity by 10</div>
+                <div>
+                  <span id="fishingcapacity-bonus">( +0 )</span>
+                  <button
+                    id="fishingcapacity-upgrade"
+                    onclick="buyUpgrade('fishingcapacity')"
+                  >
+                    Buy for 10$
+                  </button>
+                </div>
               </div>
             </div>
-            <div class="upgrade-row">
-              <div>Increase fish sell value by 25%</div>
-              <div>
-                <span id="fishingvalue-mult">( 1.00x )</span>
-                <button
-                  id="fishingvalue-upgrade"
-                  onclick="buyUpgrade('fishingvalue')"
-                >
-                  Buy for 10$
-                </button>
+
+            <div class="upgrade-group">
+              <div class="upgrade-row">
+                <div>Unlock scrap fishing</div>
+                <div>
+                  <button
+                    id="scrapfishing-upgrade"
+                    onclick="buyPermanent('scrapfishing')"
+                  >
+                    Buy for 50$
+                  </button>
+                </div>
+              </div>
+              <div id="crafting-scraprecipes" class="upgrade-row hidden">
+                <div>
+                  <button
+                    id="crafting-alltometal"
+                    onclick="CraftFunctions.craft('alltometal')"
+                    style="float: left; margin-left: 0"
+                  >
+                    Convert all to Metal
+                  </button>
+                  <button
+                    id="crafting-scraptometal"
+                    onclick="CraftFunctions.craft('scraptometal')"
+                  >
+                    Convert 5 Scrap to Metal
+                  </button>
+                  <button
+                    id="crafting-rusttometal"
+                    onclick="CraftFunctions.craft('rusttometal')"
+                  >
+                    Convert 3 Rusted Metal to Metal
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="upgrade-group">
+              <div id="crafting-automaticfishers" class="upgrade-row hidden">
+                <div>Create an automatic fisher</div>
+                <div>
+                  <span id="crafting-metalfisher-amount">0</span>
+                  <button
+                    id="crafting-metalfisher-button"
+                    onclick="CraftFunctions.craft('metalfisher')"
+                  >
+                    Craft for 3 Metal
+                  </button>
+                </div>
+              </div>
+              <div class="upgrade-row">
+                <div>Overclock automatic fishers by 12.5%</div>
+                <div>
+                  <span id="metalfisheroverclock-mult">( 1.00x )</span>
+                  <button
+                    id="metalfisheroverclock-upgrade"
+                    onclick="buyUpgrade('metalfisheroverclock')"
+                  >
+                    Buy for 50$
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+        </section>
 
-          <div class="upgrade-group">
-            <div class="upgrade-row">
-              <div>Unlock scrap fishing</div>
-              <div>
-                <button
-                  id="scrapfishing-upgrade"
-                  onclick="buyPermanent('scrapfishing')"
-                >
-                  Buy for 50$
-                </button>
-              </div>
-            </div>
-            <div id="crafting-scraprecipes" class="upgrade-row hidden">
-              <div>
-                <button
-                  id="crafting-scraptometal"
-                  onclick="CraftFunctions.craft('scraptometal')"
-                >
-                  Convert 5 Scrap to Metal
-                </button>
-                <button
-                  id="crafting-rusttometal"
-                  onclick="CraftFunctions.craft('rusttometal')"
-                >
-                  Convert 3 Rusted Metal to Metal
-                </button>
-              </div>
-            </div>
+        <section class="panel center">
+          <div>
+            <span id="fish-count-display">You have 0 fish.</span>
+            <br />
+            <span id="fish-max-display">You can hold up to 100 fish.</span>
+            <p>
+              <button id="sellall-button" onclick="FishFunctions.sellAll()">
+                Sell all
+              </button>
+            </p>
+            <div id="fish-amounts"></div>
+            <div id="scrap-amounts"></div>
           </div>
+        </section>
+      </div>
+    </div>
 
-          <div class="upgrade-group">
-            <div id="crafting-automaticfishers" class="upgrade-row hidden">
-              <div>Create an automatic fisher</div>
-              <div>
-                <span id="crafting-metalfisher-amount">0</span>
-                <button
-                  id="crafting-metalfisher-button"
-                  onclick="CraftFunctions.craft('metalfisher')"
-                >
-                  Craft for 3 Metal
-                </button>
-              </div>
-            </div>
-            <div class="upgrade-row">
-              <div>Overclock automatic fishers by 12.5%</div>
-              <div>
-                <span id="metalfisheroverclock-mult">( 1.00x )</span>
-                <button
-                  id="metalfisheroverclock-upgrade"
-                  onclick="buyUpgrade('metalfisheroverclock')"
-                >
-                  Buy for 50$
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Right Panel -->
-      <section class="panel center">
-        <div>
-          <span id="fish-count-display">You have 0 fish.</span>
-          <br />
-          <span id="fish-max-display">You can hold up to 100 fish.</span>
-          <p>
-            <button id="sellall-button" onclick="FishFunctions.sellAll()">Sell all</button>
-          </p>
-          <div id="fish-amounts"></div>
-          <div id="scrap-amounts"></div>
-        </div>
-      </section>
+    <div id="settings-tab" class="tab-content" style="display: none">
+      <div class="center" style="margin-top: 2rem">
+        <h2>Title</h2>
+        <p>Settings stuff</p>
+      </div>
     </div>
   </body>
 
@@ -132,6 +169,7 @@
   <script src="./js/craft.js"></script>
   <script src="./js/display.js"></script>
   <script src="./js/common.js"></script>
+  <script src="./js/tabs.js"></script>
   <script defer src="./js/save.js"></script>
   <script defer src="./js/script.js"></script>
 </html>
