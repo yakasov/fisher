@@ -7,6 +7,10 @@ const UPGRADES = {
     bought: 0,
     cost: (n) => new Decimal(10 * 1.75 ** n),
   },
+  metalfisheroverclock: {
+    bought: 0,
+    cost: (n) => new Decimal(50 * 1.5 ** n),
+  },
 };
 
 const PERMANENTS = {

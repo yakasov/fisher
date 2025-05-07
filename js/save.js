@@ -30,7 +30,7 @@ function loadGame() {
   const loadedSave = JSON.parse(atob(rawSave));
 
   allowedFish = loadedSave.allowedFish;
-  auto = JSON.parse(loadedSave.auto);
+  //auto = JSON.parse(loadedSave.auto);
   craftables = JSON.parse(loadedSave.craftables);
   Object.entries(loadedSave.fish).forEach(([k, v]) => (fish[k] = v));
   money = new Decimal(loadedSave.money);
