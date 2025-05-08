@@ -57,13 +57,15 @@ function calculateFishChances(allowedFish) {
 
   Object.entries(RAW_FISH_DICT).forEach(([k, v]) => {
     FISH_DICT[k] = {
-      chance: chance_acc,
+      chance: allowedFish.includes(v.type) ? chance_acc : 0,
       name: RAW_FISH_DICT[k].name ?? null,
       noSell: RAW_FISH_DICT[k].noSell ?? null,
       type: v.type,
       value: v.value,
     };
-    chance_acc +=
+    if (allowedFish.includes(v.type)) {
+      chance_acc +=
       v.chance * CHANCE_MULTS[v.type] * (FISH_TYPES[v.type] / 100) * TYPE_MULT;
+    }
   });
 }
