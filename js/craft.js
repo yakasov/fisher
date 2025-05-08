@@ -39,7 +39,7 @@ let CraftFunctions = {
       case "rusttometal":
         return 3;
       case "metalfisher":
-        return 3 + craftables.metalfisher;
+        return Math.floor(3 + craftables.metalfisher ** 1.5);
       default:
         return 0;
     }

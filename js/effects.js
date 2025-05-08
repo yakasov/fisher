@@ -2,6 +2,9 @@ let Effects = {
   fishMax: function () {
     return 20 + this.fishBucketSize();
   },
+  scrapMax: function () {
+    return this.fishMax() / 2;
+  },
   fishBucketSize: function () {
     return UPGRADES.fishingcapacity.bought * 10;
   },

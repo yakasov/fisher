@@ -87,7 +87,7 @@
                     id="scrapfishing-upgrade"
                     onclick="buyPermanent('scrapfishing')"
                   >
-                    Buy for 50$
+                    Buy for 50.00$
                   </button>
                 </div>
               </div>
@@ -155,8 +155,9 @@
                 Sell all
               </button>
             </p>
-            <div id="fish-amounts"></div>
-            <div id="scrap-amounts"></div>
+            <div class="fish-lines" id="normal-amounts"></div>
+            <div class="fish-lines" id="lake-amounts"></div>
+            <div class="fish-lines" id="scrap-amounts"></div>
           </div>
         </section>
       </div>
@@ -166,15 +167,15 @@
       <div class="center" style="margin-top: 2rem">
         <h2>Permits</h2>
         <div class="permits-grid">
-          <div class="permit-cell">
+          <div class="permit-cell" id="permit-0" onclick="Permits.buyPermit(0)">
             <div class="permit-title">Lake Fishing Permit</div>
             <div class="permit-content">Allows you to catch lake fish.</div>
             <div class="permit-cost">
               <b>Requirements:</b><br />
-              5,000$
+              250$
             </div>
           </div>
-          <div class="permit-cell bought">
+          <div class="permit-cell" id="permit-1" disabled>
             <div class="permit-title">Fishing Tournaments</div>
             <div class="permit-content">
               Opens up entry to fishing challenges.
@@ -184,7 +185,7 @@
               5,000 fish caught
             </div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-2" disabled>
             <div class="permit-title">Ocean Fishing Permit</div>
             <div class="permit-content">Allows you to catch ocean fish.</div>
             <div class="permit-cost">
@@ -192,7 +193,7 @@
               4 tournament completions
             </div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-3" disabled>
             <div class="permit-title">Employment Permit</div>
             <div class="permit-content">
               Allows you to hire staff to help automate things.
@@ -202,51 +203,51 @@
               250,000$
             </div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-4" disabled>
             <div class="permit-title">Permit 5</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-5" disabled>
             <div class="permit-title">Permit 6</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-6" disabled>
             <div class="permit-title">Permit 7</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-7" disabled>
             <div class="permit-title">Permit 8</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-8" disabled>
             <div class="permit-title">Permit 9</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-9" disabled>
             <div class="permit-title">Permit 10</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-10" disabled>
             <div class="permit-title">Permit 11</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-11" disabled>
             <div class="permit-title">Permit 12</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-12" disabled>
             <div class="permit-title">Permit 13</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-13" disabled>
             <div class="permit-title">Permit 14</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-14" disabled>
             <div class="permit-title">Permit 15</div>
             <div class="permit-content">???</div>
           </div>
-          <div class="permit-cell" disabled>
+          <div class="permit-cell" id="permit-15" disabled>
             <div class="permit-title">Permit 16</div>
             <div class="permit-content">???</div>
           </div>
@@ -256,8 +257,20 @@
 
     <div id="settings-tab" class="tab-content" style="display: none">
       <div class="center" style="margin-top: 2rem">
-        <h2>Title</h2>
-        <p>Settings stuff</p>
+        <h2>Settings</h2>
+        <div style="margin-bottom: 2rem">
+          <button id="export-btn" onclick="exportSave()">Export Save</button>
+          <button id="import-btn" onclick="importSave()">Import Save</button>
+          <button id="reset-btn" onclick="resetSave()" style="background: #a33; color: #fff">
+            Reset Save
+          </button>
+        </div>
+        <textarea
+          id="save-data"
+          rows="6"
+          placeholder="Your save data will appear here for export/import."
+        ></textarea>
+        <p>Yeah, I know the Stardew fish do not match their locations in any way but uhhh don't worry about it</p>
       </div>
     </div>
   </body>
@@ -271,6 +284,7 @@
   <script src="./js/display.js"></script>
   <script src="./js/common.js"></script>
   <script src="./js/tabs.js"></script>
+  <script src="./js/permits.js"></script>
   <script defer src="./js/save.js"></script>
   <script defer src="./js/script.js"></script>
 </html>

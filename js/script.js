@@ -2,7 +2,7 @@ let currentTime = 0;
 let money = new Decimal(0);
 let fish = {};
 
-let allowedFish = ["common"];
+let allowedFish = ["normal"];
 let craftables = {
   metalfisher: 0,
 };

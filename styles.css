@@ -12,7 +12,7 @@ body {
 .main.flex-row {
   display: flex;
   gap: 3rem;
-  margin: 5% 5%;
+  margin: 2% 5%;
   align-items: flex-start;
 }
 
@@ -57,22 +57,20 @@ button {
   display: none;
 }
 
-#fish-amounts,
-#scrap-amounts {
+.fish-lines {
   width: 66%;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto 1rem auto;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
 .fish-line {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(255, 255, 255, 0.03);
   padding: 0.5rem 1rem;
-  border-radius: 6px;
 }
 
 .fish-info {

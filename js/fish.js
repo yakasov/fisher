@@ -1,9 +1,15 @@
 let FishFunctions = {
   goFish: function (auto = false) {
-    // if (this.fishLength() >= Effects.fishMax()) return;
+    if (
+      this.fishLength() >= Effects.fishMax() &&
+      this.scrapLength() >= Effects.scrapMax()
+    ) {
+      return;
+    }
 
     const randomFish = this.getRandomFish(
-      this.fishLength() >= Effects.fishMax() ? "scrap" : null
+      this.fishLength() < Effects.fishMax(),
+      this.scrapLength() < Effects.scrapMax() && allowedFish.includes("scrap")
     );
     fish[randomFish[0]] =
       !fish[randomFish[0]] || fish[randomFish[0]] === 0
@@ -13,13 +19,22 @@ let FishFunctions = {
     if (!auto) this.fishingRecharge = Effects.fishingDelay();
     DisplayFunctions.updateOnDemand();
   },
-  getRandomFish: function (specificType = null) {
+  getRandomFish: function (allowFish, allowScrap) {
     calculateFishChances(allowedFish);
+
+    let tempAllowedFish = [];
+    if (allowFish) {
+      tempAllowedFish = allowedFish.filter((v) => v !== "scrap");
+    }
+    if (allowScrap) {
+      tempAllowedFish.push("scrap");
+    }
+
 
     const randomChance = Math.random() * 100;
     const filteredDict = Object.entries(FISH_DICT)
       .filter(([, v]) =>
-        specificType ? v.type === specificType : allowedFish.includes(v.type)
+        tempAllowedFish.includes(v.type)
       )
       .sort(([, va], [, vb]) => va.chance - vb.chance);
     const highestChance = filteredDict[filteredDict.length - 1][0];
@@ -57,6 +72,11 @@ let FishFunctions = {
   fishLength: function () {
     return Object.entries(fish)
       .filter(([k]) => FISH_DICT[k].type !== "scrap")
+      .reduce((ac, [, a]) => ac + a, 0);
+  },
+  scrapLength: function () {
+    return Object.entries(fish)
+      .filter(([k]) => FISH_DICT[k].type === "scrap")
       .reduce((ac, [, a]) => ac + a, 0);
   },
   fishingRecharge: 0,

@@ -15,6 +15,9 @@ let DisplayFunctions = {
       el.classList.add(className);
     }
   },
+  elOnClick: function (elName, func) {
+    document.getElementById(elName).onclick = func;
+  },
   getFishDisplay: function (type) {
     let fishArray = Object.entries(fish)
       .filter(([fishName]) => FISH_DICT[fishName].type === type)
@@ -73,12 +76,13 @@ let DisplayFunctions = {
     );
     this.elInner(
       "fish-max-display",
-      "text",
-      `You can hold up to ${Effects.fishMax()} fish.`
+      "html",
+      `You can hold up to ${Effects.fishMax()} fish.${PERMANENTS.scrapfishing.bought ? `<br />This also lets you hold up to ${Effects.scrapMax()} scrap items.` : ""}`
     );
   },
   updateOnDemand: function () {
-    this.elInner("fish-amounts", "html", this.getFishDisplay("common"));
+    this.elInner("normal-amounts", "html", this.getFishDisplay("normal"));
+    this.elInner("lake-amounts", "html", this.getFishDisplay("lake"));
     this.elInner("scrap-amounts", "html", this.getFishDisplay("scrap"));
     this.elDisabled("sellall-button", FishFunctions.fishLength() === 0);
 
