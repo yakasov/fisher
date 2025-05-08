@@ -1,8 +1,10 @@
 let FishFunctions = {
   goFish: function (auto = false) {
-    if (this.fishLength() >= Effects.fishMax()) return;
+    // if (this.fishLength() >= Effects.fishMax()) return;
 
-    const randomFish = this.getRandomFish();
+    const randomFish = this.getRandomFish(
+      this.fishLength() >= Effects.fishMax() ? "scrap" : null
+    );
     fish[randomFish[0]] =
       !fish[randomFish[0]] || fish[randomFish[0]] === 0
         ? (fish[randomFish[0]] = 1)
@@ -11,18 +13,19 @@ let FishFunctions = {
     if (!auto) this.fishingRecharge = Effects.fishingDelay();
     DisplayFunctions.updateOnDemand();
   },
-  getRandomFish: function () {
+  getRandomFish: function (specificType = null) {
     calculateFishChances(allowedFish);
 
     const randomChance = Math.random() * 100;
-    const highestChance = Object.entries(FISH_DICT).sort(
-      ([, va], [, vb]) => vb.chance - va.chance
-    )[0][0];
-    let randomFish = Object.entries(FISH_DICT).find(
-      ([, v]) => v.chance > randomChance
-    );
+    const filteredDict = Object.entries(FISH_DICT)
+      .filter(([, v]) =>
+        specificType ? v.type === specificType : allowedFish.includes(v.type)
+      )
+      .sort(([, va], [, vb]) => va.chance - vb.chance);
+    const highestChance = filteredDict[filteredDict.length - 1][0];
+    let randomFish = filteredDict.find(([, v]) => v.chance > randomChance);
 
-    if (!randomFish) randomFish = [highestChance, FISH_DICT[highestChance]];
+    if (!randomFish) randomFish = [highestChance, filteredDict[highestChance]];
     return randomFish;
   },
   autoFish: function () {
@@ -33,6 +36,7 @@ let FishFunctions = {
   },
   sellFish: function (fishName, all = false) {
     if (FISH_DICT[fishName].noSell) return;
+    if (all && fishName === "metal") return;
 
     if (fish[fishName] > 0) {
       fish[fishName] = fish[fishName] - 1;
@@ -48,7 +52,7 @@ let FishFunctions = {
       FishFunctions.sellFish(k, true);
     });
 
-    DisplayFunctions.updateOnDemand()
+    DisplayFunctions.updateOnDemand();
   },
   fishLength: function () {
     return Object.entries(fish)

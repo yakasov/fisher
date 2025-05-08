@@ -82,6 +82,7 @@ let ALLOWED_FISH_CACHE = "";
 
 function calculateFishChances(allowedFish) {
   if (allowedFish.join() === ALLOWED_FISH_CACHE) return FISH_DICT;
+  debugger;
   ALLOWED_FISH_CACHE = allowedFish.join();
   FISH_DICT = {};
 
@@ -101,7 +102,6 @@ function calculateFishChances(allowedFish) {
   let chance_acc = 0;
 
   Object.entries(RAW_FISH_DICT).forEach(([k, v]) => {
-    chance_acc += v.chance * CHANCE_MULTS[v.type] * (FISH_TYPES[v.type] / 100);
     FISH_DICT[k] = {
       chance: chance_acc,
       name: RAW_FISH_DICT[k].name ?? null,
@@ -109,5 +109,7 @@ function calculateFishChances(allowedFish) {
       type: v.type,
       value: v.value,
     };
+    chance_acc +=
+      v.chance * CHANCE_MULTS[v.type] * (FISH_TYPES[v.type] / 100) * TYPE_MULT;
   });
 }

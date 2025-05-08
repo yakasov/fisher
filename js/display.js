@@ -16,20 +16,31 @@ let DisplayFunctions = {
     }
   },
   getFishDisplay: function (type) {
+    let fishArray = Object.entries(fish)
+      .filter(([fishName]) => FISH_DICT[fishName].type === type)
+      .sort(([aName], [bName]) => {
+        const aDisplayName =
+          FISH_DICT[aName].name ??
+          aName.charAt(0).toUpperCase() + aName.slice(1);
+        const bDisplayName =
+          FISH_DICT[bName].name ??
+          bName.charAt(0).toUpperCase() + bName.slice(1);
+        return aDisplayName.localeCompare(bDisplayName);
+      });
+
     let text = "";
-    Object.entries(fish).forEach(([fishName, fishAmount]) => {
-      if (FISH_DICT[fishName].type !== type) return;
+    fishArray.forEach(([fishName, fishAmount]) => {
       const upperFishName =
         FISH_DICT[fishName].name ??
         fishName.charAt(0).toUpperCase() + fishName.slice(1);
       text += `
-      <div class="fish-line">
-        <div class="fish-info">
-          <img src="images/${fishName}.png" class="fish-img" />
-          <span class="fish-name">${upperFishName}</span>
-          <span class="fish-amount">${fishAmount}</span>
-        </div>
-        <button class="fish-sell-btn" onclick="FishFunctions.sellFish('${fishName}')" ${
+        <div class="fish-line">
+          <div class="fish-info">
+            <img src="images/${fishName}.png" class="fish-img" />
+            <span class="fish-name">${upperFishName}</span>
+            <span class="fish-amount">${fishAmount}</span>
+          </div>
+          <button class="fish-sell-btn" onclick="FishFunctions.sellFish('${fishName}')" ${
         fishAmount === 0 || FISH_DICT[fishName].noSell ? 'disabled=""' : ""
       }>${
         FISH_DICT[fishName].noSell
@@ -39,6 +50,7 @@ let DisplayFunctions = {
             "$"
       }</button></div>`;
     });
+
     return text;
   },
   updateDisplays: function () {

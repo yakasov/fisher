@@ -1,6 +1,6 @@
 let Effects = {
   fishMax: function () {
-    return 100 + this.fishBucketSize();
+    return 20 + this.fishBucketSize();
   },
   fishBucketSize: function () {
     return UPGRADES.fishingcapacity.bought * 10;
