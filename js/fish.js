@@ -22,21 +22,22 @@ let FishFunctions = {
   getRandomFish: function (allowFish, allowScrap) {
     calculateFishChances(allowedFish);
 
-    let tempAllowedFish = [];
-    if (allowFish) {
-      tempAllowedFish = allowedFish.filter((v) => v !== "scrap");
-    }
-    if (allowScrap) {
-      tempAllowedFish.push("scrap");
+    let scrapOrFish = Math.random();
+    let filteredDict;
+
+    if (allowScrap && (scrapOrFish < 0.33 || !allowFish)) {
+      filteredDict = Object.entries(SCRAP_DICT);
+    } else if (allowFish && (scrapOrFish > 0.33 || !allowScrap)) {
+      filteredDict = Object.entries(FISH_DICT).filter(([, v]) =>
+        allowedFish.includes(v.type)
+      );
+    } else {
+      return;
     }
 
+    filteredDict = filteredDict.sort(([, va], [, vb]) => va.chance - vb.chance);
 
     const randomChance = Math.random() * 100;
-    const filteredDict = Object.entries(FISH_DICT)
-      .filter(([, v]) =>
-        tempAllowedFish.includes(v.type)
-      )
-      .sort(([, va], [, vb]) => va.chance - vb.chance);
     const highestChance = filteredDict[filteredDict.length - 1][0];
     let randomFish = filteredDict.find(([, v]) => v.chance > randomChance);
 
@@ -50,7 +51,7 @@ let FishFunctions = {
     }
   },
   sellFish: function (fishName, all = false) {
-    if (FISH_DICT[fishName].noSell) return;
+    if (!FISH_DICT[fishName] || FISH_DICT[fishName].noSell) return;
     if (all && fishName === "metal") return;
 
     if (fish[fishName] > 0) {
@@ -71,12 +72,12 @@ let FishFunctions = {
   },
   fishLength: function () {
     return Object.entries(fish)
-      .filter(([k]) => FISH_DICT[k].type !== "scrap")
+      .filter(([k]) => FISH_DICT[k])
       .reduce((ac, [, a]) => ac + a, 0);
   },
   scrapLength: function () {
     return Object.entries(fish)
-      .filter(([k]) => FISH_DICT[k].type === "scrap")
+      .filter(([k]) => SCRAP_DICT[k])
       .reduce((ac, [, a]) => ac + a, 0);
   },
   fishingRecharge: 0,

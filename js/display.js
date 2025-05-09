@@ -19,37 +19,37 @@ let DisplayFunctions = {
     document.getElementById(elName).onclick = func;
   },
   getFishDisplay: function (type) {
-    let fishArray = Object.entries(fish)
-      .filter(([fishName]) => FISH_DICT[fishName].type === type)
+    const dict = type === "scrap" ? SCRAP_DICT : FISH_DICT;
+
+    let itemsArray = Object.entries(fish)
+      .filter(([itemName]) => dict[itemName]?.type === type)
       .sort(([aName], [bName]) => {
         const aDisplayName =
-          FISH_DICT[aName].name ??
-          aName.charAt(0).toUpperCase() + aName.slice(1);
+          dict[aName].name ?? aName.charAt(0).toUpperCase() + aName.slice(1);
         const bDisplayName =
-          FISH_DICT[bName].name ??
-          bName.charAt(0).toUpperCase() + bName.slice(1);
+          dict[bName].name ?? bName.charAt(0).toUpperCase() + bName.slice(1);
         return aDisplayName.localeCompare(bDisplayName);
       });
 
     let text = "";
-    fishArray.forEach(([fishName, fishAmount]) => {
-      const upperFishName =
-        FISH_DICT[fishName].name ??
-        fishName.charAt(0).toUpperCase() + fishName.slice(1);
+    itemsArray.forEach(([itemName, itemAmount]) => {
+      const upperItemName =
+        dict[itemName].name ??
+        itemName.charAt(0).toUpperCase() + itemName.slice(1);
       text += `
-        <div class="fish-line">
-          <div class="fish-info">
-            <img src="images/${fishName}.png" class="fish-img" />
-            <span class="fish-name">${upperFishName}</span>
-            <span class="fish-amount">${fishAmount}</span>
-          </div>
-          <button class="fish-sell-btn" onclick="FishFunctions.sellFish('${fishName}')" ${
-        fishAmount === 0 || FISH_DICT[fishName].noSell ? 'disabled=""' : ""
+      <div class="fish-line">
+        <div class="fish-info">
+          <img src="images/${itemName}.png" class="fish-img" />
+          <span class="fish-name">${upperItemName}</span>
+          <span class="fish-amount">${itemAmount}</span>
+        </div>
+        <button class="fish-sell-btn" onclick="FishFunctions.sellFish('${itemName}')" ${
+        itemAmount === 0 || dict[itemName].noSell ? 'disabled=""' : ""
       }>${
-        FISH_DICT[fishName].noSell
+        dict[itemName].noSell
           ? "Cannot sell"
           : "Sell for " +
-            f(FISH_DICT[fishName].value * Effects.fishingValueMult()) +
+            f(dict[itemName].value * Effects.fishingValueMult()) +
             "$"
       }</button></div>`;
     });
@@ -77,7 +77,11 @@ let DisplayFunctions = {
     this.elInner(
       "fish-max-display",
       "html",
-      `You can hold up to ${Effects.fishMax()} fish.${PERMANENTS.scrapfishing.bought ? `<br />This also lets you hold up to ${Effects.scrapMax()} scrap items.` : ""}`
+      `You can hold up to ${Effects.fishMax()} fish.${
+        PERMANENTS.scrapfishing.bought
+          ? `<br />This also lets you hold up to ${Effects.scrapMax()} scrap items.`
+          : ""
+      }`
     );
   },
   updateOnDemand: function () {
