@@ -15,9 +15,9 @@ let Permits = {
   },
   permits: {
     0: {
-      buy: () => (money = money.sub(250)),
-      func: () => allowedFish.push("lake"),
-      req: () => money.gte(250),
+      buy: () => (Player.money = Player.money.sub(250)),
+      func: () => Player.allowedFish.push("lake"),
+      req: () => Player.money.gte(250),
     },
   },
 };

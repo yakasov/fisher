@@ -55,6 +55,7 @@
                   <div>
                     <span id="fishingdelay-mult">( 1.00x )</span>
                     <button
+                      class="fish-sell-btn"
                       id="fishingdelay-upgrade"
                       onclick="buyUpgrade('fishingdelay')"
                     >
@@ -67,6 +68,7 @@
                   <div>
                     <span id="fishingvalue-mult">( 1.00x )</span>
                     <button
+                      class="fish-sell-btn"
                       id="fishingvalue-upgrade"
                       onclick="buyUpgrade('fishingvalue')"
                     >
@@ -79,6 +81,7 @@
                   <div>
                     <span id="fishingcapacity-bonus">( +0 )</span>
                     <button
+                      class="fish-sell-btn"
                       id="fishingcapacity-upgrade"
                       onclick="buyUpgrade('fishingcapacity')"
                     >
@@ -93,6 +96,7 @@
                   <div>Unlock scrap fishing</div>
                   <div>
                     <button
+                      class="upgrade-btn"
                       id="scrapfishing-upgrade"
                       onclick="buyPermanent('scrapfishing')"
                     >
@@ -103,6 +107,7 @@
                 <div id="crafting-scraprecipes" class="upgrade-row hidden">
                   <div>
                     <button
+                      class="upgrade-btn"
                       id="crafting-alltometal"
                       onclick="CraftFunctions.craft('alltometal')"
                       style="float: left; margin-left: 0"
@@ -110,12 +115,14 @@
                       Convert all to Metal
                     </button>
                     <button
+                      class="upgrade-btn"
                       id="crafting-scraptometal"
                       onclick="CraftFunctions.craft('scraptometal')"
                     >
                       Convert 5 Scrap to Metal
                     </button>
                     <button
+                      class="upgrade-btn"
                       id="crafting-rusttometal"
                       onclick="CraftFunctions.craft('rusttometal')"
                     >
@@ -131,6 +138,7 @@
                   <div>
                     <span id="crafting-metalfisher-amount">0</span>
                     <button
+                      class="fish-sell-btn"
                       id="crafting-metalfisher-button"
                       onclick="CraftFunctions.craft('metalfisher')"
                     >
@@ -143,6 +151,7 @@
                   <div>
                     <span id="metalfisheroverclock-mult">( 1.00x )</span>
                     <button
+                      class="fish-sell-btn"
                       id="metalfisheroverclock-upgrade"
                       onclick="buyUpgrade('metalfisheroverclock')"
                     >
@@ -159,7 +168,7 @@
           <div>
             <span id="fish-count-display">You have 0 fish.</span>
             <br />
-            <span id="fish-max-display">You can hold up to 100 fish.</span>
+            <span id="fish-max-display">You can hold up to 20 fish.</span>
             <p>
               <button id="sellall-button" onclick="FishFunctions.sellAll()">
                 Sell all
@@ -176,7 +185,8 @@
     <div id="prestige-tab" class="tab-content" style="display: none">
       <div class="center" style="margin-top: 2rem">
         <h2>Prestige</h2>
-        <button class="prestige-btn">Prestige</button>
+        <p id="prestige-gain">You can Prestige for x Prestige Points.</p>
+        <button class="prestige-btn" onclick="PrestigeFunctions.prestige()">Prestige</button>
         <div class="prestige-points">
           Prestige Points: <span id="prestige-points">0</span>
         </div>
@@ -189,33 +199,35 @@
                   <b>Cheaper Fishing Upgrades</b><br />
                   Reduces the cost of fishing upgrades by 10%.
                 </div>
-                <button class="prestige-upgrade-btn">Buy (5 PP)</button>
+                <button class="upgrade-btn">Buy (5 PP)</button>
               </div>
               <div class="prestige-upgrade-row">
                 <div>
                   <b>Faster Fishing</b><br />
                   Reduces fishing delay by 5%.
                 </div>
-                <button class="prestige-upgrade-btn">Buy (8 PP)</button>
+                <button class="upgrade-btn">Buy (8 PP)</button>
               </div>
             </div>
           </section>
           <section class="curved-panel">
             <h3>Milestones</h3>
             <div class="prestige-milestone-list">
-              <div class="prestige-milestone-row">
+              <div class="prestige-milestone-row" id="prestige-milestone-0" disabled>
                 <div>
-                  <b>First Prestige</b><br />
-                  Reach 1 Prestige Point.
+                  <div class="permit-title">First Prestige</div>
+                  <div class="permit-content">
+                    Unlocks the Prestige tab and allows you to prestige.
+                  </div>
                 </div>
-                <div class="milestone-status unlocked">Unlocked</div>
               </div>
-              <div class="prestige-milestone-row">
+              <div class="prestige-milestone-row" id="prestige-milestone-1" disabled>
                 <div>
-                  <b>Prestige Collector</b><br />
-                  Reach 10 Prestige Points.
+                  <div class="permit-title">First Prestige</div>
+                  <div class="permit-content">
+                    Unlocks the Prestige tab and allows you to prestige.
+                  </div>
                 </div>
-                <div class="milestone-status locked">Locked</div>
               </div>
             </div>
           </section>
@@ -227,7 +239,11 @@
       <div class="center" style="margin-top: 2rem">
         <h2>Permits</h2>
         <div class="permits-grid">
-          <div class="achievable-cell" id="permit-0" onclick="Permits.buyPermit(0)">
+          <div
+            class="achievable-cell"
+            id="permit-0"
+            onclick="Permits.buyPermit(0)"
+          >
             <div class="permit-title">Lake Fishing Permit</div>
             <div class="permit-content">
               Allows you to catch lake fish, and unlocks a new feature.
@@ -321,6 +337,7 @@
       <div class="center" style="margin-top: 2rem">
         <h2>Settings</h2>
         <div style="margin-bottom: 2rem">
+          <button onclick="saveGame()">Save Game</button>
           <button id="export-btn" onclick="exportSave()">Export Save</button>
           <button id="import-btn" onclick="importSave()">Import Save</button>
           <button
@@ -354,6 +371,8 @@
   <script src="./js/common.js"></script>
   <script src="./js/tabs.js"></script>
   <script src="./js/permits.js"></script>
+  <script src="./js/prestige.js"></script>
+  <script src="./js/player.js"></script>
   <script defer src="./js/save.js"></script>
   <script defer src="./js/script.js"></script>
 </html>

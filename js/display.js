@@ -20,8 +20,9 @@ let DisplayFunctions = {
   },
   getFishDisplay: function (type) {
     const dict = type === "scrap" ? SCRAP_DICT : FISH_DICT;
+    const scrapOrFish = type === "scrap" ? Player.scrap : Player.fish;
 
-    let itemsArray = Object.entries(fish)
+    let itemsArray = Object.entries(scrapOrFish)
       .filter(([itemName]) => dict[itemName]?.type === type)
       .sort(([aName], [bName]) => {
         const aDisplayName =
@@ -57,11 +58,11 @@ let DisplayFunctions = {
     return text;
   },
   updateDisplays: function () {
-    this.elInner("money-display", "text", `You have ${f(money)}$.`);
+    this.elInner("money-display", "text", `You have ${f(Player.money)}$.`);
     this.elInner(
       "fish-count-display",
       "text",
-      `You have ${FishFunctions.fishLength()} fish.`
+      `You have ${Player.fishLength()} fish.`
     );
     this.elInner(
       "fish-delay",
@@ -69,7 +70,7 @@ let DisplayFunctions = {
       `Fishing recharge: ${f(
         FishFunctions.fishingRecharge
       )}s\nMax recharge: ${f(Effects.fishingDelay())}s${
-        craftables.metalfisher > 0
+        Player.craftables.metalfisher > 0
           ? "\nAuto-fishing every " + f(Effects.autofishingInterval()) + "s"
           : ""
       }`
@@ -83,36 +84,38 @@ let DisplayFunctions = {
           : ""
       }`
     );
+
+    this.elInner(
+      "prestige-gain",
+      "text",
+      `You can Prestige for ${PrestigeFunctions.prestigeGain()} Prestige Points.`
+    );
   },
   updateOnDemand: function () {
     this.elInner("normal-amounts", "html", this.getFishDisplay("normal"));
     this.elInner("lake-amounts", "html", this.getFishDisplay("lake"));
     this.elInner("scrap-amounts", "html", this.getFishDisplay("scrap"));
-    this.elDisabled("sellall-button", FishFunctions.fishLength() === 0);
+    this.elDisabled("sellall-button", Player.fishLength() === 0);
 
     this.elInner(
       "fishingdelay-upgrade",
       "text",
-      `Buy for ${f(UPGRADES.fishingdelay.cost(UPGRADES.fishingdelay.bought))}$`
+      `Buy for ${f(UPGRADES.fishingdelay())}$`
     );
     this.elInner(
       "fishingvalue-upgrade",
       "text",
-      `Buy for ${f(UPGRADES.fishingvalue.cost(UPGRADES.fishingvalue.bought))}$`
+      `Buy for ${f(UPGRADES.fishingvalue())}$`
     );
     this.elInner(
       "fishingcapacity-upgrade",
       "text",
-      `Buy for ${f(
-        UPGRADES.fishingcapacity.cost(UPGRADES.fishingcapacity.bought)
-      )}$`
+      `Buy for ${f(UPGRADES.fishingcapacity())}$`
     );
     this.elInner(
       "metalfisheroverclock-upgrade",
       "text",
-      `Buy for ${f(
-        UPGRADES.metalfisheroverclock.cost(UPGRADES.metalfisheroverclock.bought)
-      )}$`
+      `Buy for ${f(UPGRADES.metalfisheroverclock())}$`
     );
 
     this.elInner(
@@ -139,8 +142,8 @@ let DisplayFunctions = {
     this.elInner(
       "crafting-metalfisher-amount",
       "text",
-      `${craftables.metalfisher} Handmade Fisher${
-        craftables.metalfisher === 1 ? "" : "s"
+      `${Player.craftables.metalfisher} Handmade Fisher${
+        Player.craftables.metalfisher === 1 ? "" : "s"
       }`
     );
     this.elInner(

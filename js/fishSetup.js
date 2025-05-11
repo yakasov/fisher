@@ -41,14 +41,14 @@ const FISH_CHANCES = { normal: 66, lake: 34 };
 const FISH_DICT = {};
 const SCRAP_DICT = {};
 
-function calculateFishChances(allowedFish) {
+function calculateFishChances() {
   // Multiply FISH_CHANCES by this to get the chance normalised to 100
   let totalTypeChance =
-    100 / allowedFish.reduce((ac, k) => ac + (FISH_CHANCES[k] || 0), 0);
+    100 / Player.allowedFish.reduce((ac, k) => ac + (FISH_CHANCES[k] || 0), 0);
 
   // Multiply each fish chance by their fish type chance to get the chance normalised to 100
   let fishTypeChances = {};
-  allowedFish.forEach((type) => {
+  Player.allowedFish.forEach((type) => {
     let totalFishChance = Object.values(FISH_VALUES)
       .filter((fish) => fish.type === type)
       .reduce((sum, fish) => sum + fish.chance, 0);
@@ -66,13 +66,13 @@ function calculateFishChances(allowedFish) {
   Object.entries(FISH_VALUES).forEach(([fishName, fishData]) => {
     let normalisedChance = fishData.chance * fishTypeChances[fishData.type];
     FISH_DICT[fishName] = {
-      chance: allowedFish.includes(fishData.type) ? chanceAcc : 0,
+      chance: Player.allowedFish.includes(fishData.type) ? chanceAcc : 0,
       name: fishData.name ?? null,
       noSell: fishData.noSell ?? null,
       type: fishData.type,
       value: fishData.value,
     };
-    chanceAcc += allowedFish.includes(fishData.type) ? normalisedChance : 0;
+    chanceAcc += Player.allowedFish.includes(fishData.type) ? normalisedChance : 0;
   });
 
   // Normalise fish chances to max at 100

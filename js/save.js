@@ -1,21 +1,20 @@
 function createSave() {
-  const upgradesToSave = {};
   const permanentsToSave = {};
 
-  Object.entries(UPGRADES).forEach(([k, v]) => (upgradesToSave[k] = v.bought));
   Object.entries(PERMANENTS).forEach(
     ([k, v]) => (permanentsToSave[k] = v.bought)
   );
 
   return {
-    allowedFish,
-    craftables: JSON.stringify(craftables),
-    fish,
-    money,
+    allowedFish: Player.allowedFish,
+    craftables: JSON.stringify(Player.craftables),
+    fish: Player.fish,
+    money: Player.money.toString(),
     permanentsToSave,
     permits: JSON.stringify(Permits.boughtPermits),
     saveTime: Math.floor(Date.now() / 1000),
-    upgradesToSave,
+    scrap: Player.scrap,
+    upgrades: JSON.stringify(Player.upgrades),
   };
 }
 
@@ -29,17 +28,16 @@ function loadGame() {
 
   const loadedSave = JSON.parse(atob(rawSave));
 
-  allowedFish = loadedSave.allowedFish;
-  craftables = JSON.parse(loadedSave.craftables);
-  Object.entries(loadedSave.fish).forEach(([k, v]) => (fish[k] = v));
-  money = new Decimal(loadedSave.money);
+  Player.allowedFish = loadedSave.allowedFish;
+  Player.craftables = JSON.parse(loadedSave.craftables);
+  Object.entries(loadedSave.fish).forEach(([k, v]) => (Player.fish[k] = v));
+  Object.entries(loadedSave.scrap).forEach(([k, v]) => (Player.scrap[k] = v));
+  Player.money = new Decimal(loadedSave.money);
   Permits.boughtPermits = JSON.parse(loadedSave.permits);
   Object.entries(loadedSave.permanentsToSave).forEach(
     ([k, v]) => (PERMANENTS[k].bought = v)
   );
-  Object.entries(loadedSave.upgradesToSave).forEach(
-    ([k, v]) => (UPGRADES[k].bought = v)
-  );
+  Player.upgrades = JSON.parse(loadedSave.upgrades);
 
   loadPermits();
 }
@@ -68,7 +66,7 @@ function resetSave() {
   if (
     confirm("Are you sure you want to reset your save? This cannot be undone!")
   ) {
-    localStorage.remove("fisherSave");
+    localStorage.removeItem("fisherSave");
     location.reload();
   }
 }

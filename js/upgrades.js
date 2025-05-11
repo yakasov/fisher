@@ -1,20 +1,8 @@
 const UPGRADES = {
-  fishingdelay: {
-    bought: 0,
-    cost: (n) => new Decimal(5 * 1.8 ** n),
-  },
-  fishingvalue: {
-    bought: 0,
-    cost: (n) => new Decimal(10 * 1.75 ** n),
-  },
-  fishingcapacity: {
-    bought: 0,
-    cost: (n) => new Decimal(10 * 1.5 ** n),
-  },
-  metalfisheroverclock: {
-    bought: 0,
-    cost: (n) => new Decimal(50 * 1.5 ** n),
-  },
+  fishingdelay: () => new Decimal(5 * 1.8 ** Player.upgrades.fishingdelay),
+  fishingvalue: () => new Decimal(10 * 1.75 ** Player.upgrades.fishingvalue),
+  fishingcapacity: () => new Decimal(10 * 1.5 ** Player.upgrades.fishingcapacity),
+  metalfisheroverclock: () => new Decimal(50 * 1.5 ** Player.upgrades.metalfisheroverclock),
 };
 
 const PERMANENTS = {

@@ -1,20 +1,14 @@
 let currentTime = 0;
-let money = new Decimal(0);
-let fish = {};
 
-let allowedFish = ["normal"];
-let craftables = {
-  metalfisher: 0,
-};
 let auto = {
   metalfisher: 0,
 };
 
 function buyUpgrade(upgrade) {
-  const u = UPGRADES[upgrade];
-  if (money.gte(u.cost(u.bought))) {
-    money = money.sub(u.cost(u.bought));
-    u.bought = u.bought + 1;
+  const u = UPGRADES[upgrade]();
+  if (Player.money.gte(u)) {
+    Player.money = Player.money.sub(u);
+    Player.upgrades[upgrade] = Player.upgrades[upgrade] + 1;
   }
 
   DisplayFunctions.updateOnDemand();
@@ -22,13 +16,13 @@ function buyUpgrade(upgrade) {
 
 function buyPermanent(upgrade) {
   const u = PERMANENTS[upgrade];
-  if (money.gte(u.cost) && !u.bought) {
-    money = money.sub(u.cost);
+  if (Player.money.gte(u) && !u.bought) {
+    Player.money = Player.money.sub(u.cost);
     u.bought = true;
 
     switch (upgrade) {
       case "scrapfishing":
-        allowedFish.push("scrap");
+        Player.allowedFish.push("scrap");
         break;
       default:
         break;
@@ -58,11 +52,11 @@ function gameLoop() {
   FishFunctions.autoFish();
 
   // in case anybody wants to cheat but they don't realise it needs to be a Decimal
-  if (typeof money === "number") money = new Decimal(money);
+  if (typeof Player.money === "number") Player.money = new Decimal(Player.money);
 }
 
 loadGame();
-calculateFishChances(allowedFish);
+calculateFishChances();
 setInterval(gameLoop, 25);
 setInterval(saveGame, 5000);
 DisplayFunctions.updateOnDemand();
