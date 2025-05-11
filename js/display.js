@@ -156,5 +156,9 @@ let DisplayFunctions = {
       this.elClass("crafting-scraprecipes", "hidden", "remove");
       this.elClass("crafting-automaticfishers", "hidden", "remove");
     }
+
+    if (Permits.hasPermit(0)) {
+      this.elClass("prestige-tab-button", "hidden", "remove");
+    }
   },
 };

@@ -10,6 +10,9 @@ let Permits = {
       DisplayFunctions.elOnClick(`permit-${id}`, () => {});
     }
   },
+  hasPermit: function (id) {
+    return this.boughtPermits.includes(id);
+  },
   permits: {
     0: {
       buy: () => (money = money.sub(250)),

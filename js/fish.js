@@ -25,9 +25,9 @@ let FishFunctions = {
     let scrapOrFish = Math.random();
     let filteredDict;
 
-    if (allowScrap && (scrapOrFish < 0.33 || !allowFish)) {
+    if (allowScrap && (scrapOrFish <= 0.25 || !allowFish)) {
       filteredDict = Object.entries(SCRAP_DICT);
-    } else if (allowFish && (scrapOrFish > 0.33 || !allowScrap)) {
+    } else if (allowFish && (scrapOrFish > 0.25 || !allowScrap)) {
       filteredDict = Object.entries(FISH_DICT).filter(([, v]) =>
         allowedFish.includes(v.type)
       );
