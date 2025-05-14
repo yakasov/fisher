@@ -6,8 +6,13 @@ let auto = {
 
 function buyUpgrade(upgrade) {
   const u = UPGRADES[upgrade]();
-  if (Player.money.gte(u)) {
+  const uc = getUpgradeClass(upgrade);
+
+  if (uc === "normal" && Player.money.gte(u)) {
     Player.money = Player.money.sub(u);
+    Player.upgrades[upgrade] = Player.upgrades[upgrade] + 1;
+  } else if (uc === "prestige" && Player.prestigePoints.gte(u)) {
+    Player.prestigePoints = Player.prestigePoints.sub(u);
     Player.upgrades[upgrade] = Player.upgrades[upgrade] + 1;
   }
 
@@ -28,7 +33,7 @@ function buyPermanent(upgrade) {
         break;
     }
   }
-  
+
   DisplayFunctions.updateOnDemand();
 }
 
@@ -52,7 +57,8 @@ function gameLoop() {
   FishFunctions.autoFish();
 
   // in case anybody wants to cheat but they don't realise it needs to be a Decimal
-  if (typeof Player.money === "number") Player.money = new Decimal(Player.money);
+  if (typeof Player.money === "number")
+    Player.money = new Decimal(Player.money);
 }
 
 loadGame();

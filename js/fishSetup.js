@@ -65,6 +65,9 @@ function calculateFishChances() {
   let chanceAcc = 0;
   Object.entries(FISH_VALUES).forEach(([fishName, fishData]) => {
     let normalisedChance = fishData.chance * fishTypeChances[fishData.type];
+    chanceAcc += Player.allowedFish.includes(fishData.type)
+      ? normalisedChance
+      : 0;
     FISH_DICT[fishName] = {
       chance: Player.allowedFish.includes(fishData.type) ? chanceAcc : 0,
       name: fishData.name ?? null,
@@ -72,7 +75,6 @@ function calculateFishChances() {
       type: fishData.type,
       value: fishData.value,
     };
-    chanceAcc += Player.allowedFish.includes(fishData.type) ? normalisedChance : 0;
   });
 
   // Normalise fish chances to max at 100
@@ -86,6 +88,7 @@ function calculateFishChances() {
   chanceAcc = 0;
   Object.entries(SCRAP_VALUES).forEach(([scrapName, scrapData]) => {
     let normalisedChance = scrapData.chance * scrapMult;
+    chanceAcc += normalisedChance;
     SCRAP_DICT[scrapName] = {
       chance: chanceAcc,
       name: scrapData.name ?? null,
@@ -93,7 +96,6 @@ function calculateFishChances() {
       type: scrapData.type,
       value: scrapData.value,
     };
-    chanceAcc += normalisedChance;
   });
 
   // Normalise scrap chances to max at 100

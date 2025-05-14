@@ -93,7 +93,16 @@
 
               <div class="upgrade-group">
                 <div class="upgrade-row">
-                  <div>Unlock scrap fishing</div>
+                  <div>
+                    Unlock scrap fishing
+                    <span class="tooltip-container">
+                      <span class="tooltip-icon">?</span>
+                      <span class="tooltip-text"
+                        >This is a <b>permanent</b> upgrade, and will never be
+                        reset.</span
+                      >
+                    </span>
+                  </div>
                   <div>
                     <button
                       class="upgrade-btn"
@@ -167,7 +176,7 @@
         <section class="panel center">
           <div>
             <span id="fish-count-display">You have 0 fish.</span>
-            <br />
+            <br /><br />
             <span id="fish-max-display">You can hold up to 20 fish.</span>
             <p>
               <button id="sellall-button" onclick="FishFunctions.sellAll()">
@@ -186,7 +195,13 @@
       <div class="center" style="margin-top: 2rem">
         <h2>Prestige</h2>
         <p id="prestige-gain">You can Prestige for x Prestige Points.</p>
-        <button class="prestige-btn" onclick="PrestigeFunctions.prestige()">Prestige</button>
+        <p>
+          Your Prestige gain is based off of the total amount of Scrap and Fish
+          you have.
+        </p>
+        <button class="prestige-btn" onclick="PrestigeFunctions.prestige()">
+          Prestige
+        </button>
         <div class="prestige-points">
           Prestige Points: <span id="prestige-points">0</span>
         </div>
@@ -197,31 +212,52 @@
               <div class="prestige-upgrade-row">
                 <div>
                   <b>Cheaper Fishing Upgrades</b><br />
-                  Reduces the cost of fishing upgrades by 10%.
+                  Reduces the cost of fishing upgrades by 12.5%<br />(additive,
+                  max -75%).
                 </div>
-                <button class="upgrade-btn">Buy (5 PP)</button>
+                <button
+                  class="upgrade-btn"
+                  id="prestige_cheaperupgrades-upgrade"
+                  onclick="buyUpgrade('prestige_cheaperupgrades')"
+                >
+                  Buy (5 PP)
+                </button>
               </div>
               <div class="prestige-upgrade-row">
                 <div>
-                  <b>Faster Fishing</b><br />
-                  Reduces fishing delay by 5%.
+                  <b>Bonus Fish Chance</b><br />
+                  Add a 10% chance to get a bonus fish when you go fishing.
                 </div>
-                <button class="upgrade-btn">Buy (8 PP)</button>
+                <button
+                  class="upgrade-btn"
+                  id="prestige_bonusfishchance-upgrade"
+                  onclick="buyUpgrade('prestige_bonusfishchance')"
+                >
+                  Buy (8 PP)
+                </button>
               </div>
             </div>
           </section>
           <section class="curved-panel">
             <h3>Milestones</h3>
             <div class="prestige-milestone-list">
-              <div class="prestige-milestone-row" id="prestige-milestone-0" disabled>
+              <div
+                class="prestige-milestone-row"
+                id="prestige-milestone-0"
+                disabled
+              >
                 <div>
                   <div class="permit-title">First Prestige</div>
                   <div class="permit-content">
-                    Unlocks the Prestige tab and allows you to prestige.
+                    Keep 1 Handmade Fisher when you prestige.
                   </div>
                 </div>
               </div>
-              <div class="prestige-milestone-row" id="prestige-milestone-1" disabled>
+              <div
+                class="prestige-milestone-row"
+                id="prestige-milestone-1"
+                disabled
+              >
                 <div>
                   <div class="permit-title">First Prestige</div>
                   <div class="permit-content">
@@ -238,6 +274,7 @@
     <div id="permits-tab" class="tab-content" style="display: none">
       <div class="center" style="margin-top: 2rem">
         <h2>Permits</h2>
+        <p>Permits allow you to unlock new features within the game.</p>
         <div class="permits-grid">
           <div
             class="achievable-cell"
@@ -250,7 +287,7 @@
             </div>
             <div class="permit-cost">
               <b>Requirements:</b><br />
-              250$
+              250$, Scrap Fishing unlocked
             </div>
           </div>
           <div class="achievable-cell" id="permit-1" disabled>

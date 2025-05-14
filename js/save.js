@@ -12,6 +12,8 @@ function createSave() {
     money: Player.money.toString(),
     permanentsToSave,
     permits: JSON.stringify(Permits.boughtPermits),
+    prestigePoints: Player.prestigePoints.toString(),
+    totalPrestigePoints: Player.totalPrestigePoints.toString(),
     saveTime: Math.floor(Date.now() / 1000),
     scrap: Player.scrap,
     upgrades: JSON.stringify(Player.upgrades),
@@ -37,9 +39,12 @@ function loadGame() {
   Object.entries(loadedSave.permanentsToSave).forEach(
     ([k, v]) => (PERMANENTS[k].bought = v)
   );
+  Player.prestigePoints = new Decimal(loadedSave.prestigePoints);
+  Player.totalPrestigePoints = new Decimal(loadedSave.totalPrestigePoints);
   Player.upgrades = JSON.parse(loadedSave.upgrades);
 
   loadPermits();
+  PrestigeFunctions.checkMilestones();
 }
 
 function loadPermits() {

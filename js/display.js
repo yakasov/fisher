@@ -5,7 +5,11 @@ let DisplayFunctions = {
     else if (type === "html") el.innerHTML = content;
   },
   elDisabled: function (elName, disabled) {
-    document.getElementById(elName).disabled = disabled;
+    if (disabled) {
+      document.getElementById(elName).setAttribute("disabled", "");
+    } else {
+      document.getElementById(elName).removeAttribute("disabled");
+    }
   },
   elClass: function (elName, className, type) {
     let el = document.getElementById(elName);
@@ -87,8 +91,13 @@ let DisplayFunctions = {
 
     this.elInner(
       "prestige-gain",
+      "html",
+      `You can Prestige for <b>${PrestigeFunctions.prestigeGain()} Prestige Points.</b>`
+    );
+    this.elInner(
+      "prestige-points",
       "text",
-      `You can Prestige for ${PrestigeFunctions.prestigeGain()} Prestige Points.`
+      `You have ${f(Player.prestigePoints, 0)} Prestige Points.`
     );
   },
   updateOnDemand: function () {
@@ -163,5 +172,16 @@ let DisplayFunctions = {
     if (Permits.hasPermit(0)) {
       this.elClass("prestige-tab-button", "hidden", "remove");
     }
+
+    this.elInner(
+      "prestige_cheaperupgrades-upgrade",
+      "text",
+      `Buy for ${f(UPGRADES.prestige_cheaperupgrades())} PP`
+    );
+    this.elInner(
+      "prestige_bonusfishchance-upgrade",
+      "text",
+      `Buy for ${f(UPGRADES.prestige_bonusfishchance())} PP`
+    );
   },
 };

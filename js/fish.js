@@ -7,9 +7,11 @@ let FishFunctions = {
       return;
     }
 
-    const randomFish = this.getRandomFish();
+    let randomFish = this.getRandomFish();
 
-    let scrapOrFish = Object.keys(SCRAP_DICT).includes(randomFish[0]) ? Player.scrap : Player.fish;
+    let scrapOrFish = Object.keys(SCRAP_DICT).includes(randomFish[0])
+      ? Player.scrap
+      : Player.fish;
     scrapOrFish[randomFish[0]] =
       !scrapOrFish[randomFish[0]] || scrapOrFish[randomFish[0]] === 0
         ? (scrapOrFish[randomFish[0]] = 1)
@@ -22,7 +24,9 @@ let FishFunctions = {
     calculateFishChances(Player.allowedFish);
 
     let allowFish = Player.fishLength() < Effects.fishMax();
-    let allowScrap = Player.scrapLength() < Effects.scrapMax() && Player.allowedFish.includes("scrap");
+    let allowScrap =
+      Player.scrapLength() < Effects.scrapMax() &&
+      Player.allowedFish.includes("scrap");
 
     let scrapOrFish = Math.random();
     let filteredDict;
@@ -39,8 +43,8 @@ let FishFunctions = {
 
     filteredDict = filteredDict.sort(([, va], [, vb]) => va.chance - vb.chance);
 
-    const randomChance = Math.random() * 100;
-    const highestChance = filteredDict[filteredDict.length - 1][0];
+    let randomChance = Math.random() * 100;
+    let highestChance = filteredDict[filteredDict.length - 1][0];
     let randomFish = filteredDict.find(([, v]) => v.chance > randomChance);
 
     if (!randomFish) randomFish = [highestChance, filteredDict[highestChance]];
@@ -52,15 +56,24 @@ let FishFunctions = {
       auto.metalfisher = currentTime + Effects.autofishingInterval();
     }
   },
+  getScrapOrFish: function (itemName) {
+    let isScrap = Object.keys(SCRAP_DICT).includes(itemName);
+    return {
+      playerDict: isScrap ? Player.scrap : Player.fish,
+      dataDict: isScrap ? SCRAP_DICT : FISH_DICT,
+    };
+  },
   sellFish: function (fishName, all = false) {
-    if (!FISH_DICT[fishName] || FISH_DICT[fishName].noSell) return;
+    let { playerDict, dataDict } = this.getScrapOrFish(fishName);
+
+    if (!dataDict[fishName] || dataDict[fishName].noSell) return;
     if (all && fishName === "metal") return;
 
-    let scrapOrFish = Object.keys(SCRAP_DICT).includes(fishName) ? Player.scrap : Player.fish;
-
-    if (scrapOrFish[fishName] > 0) {
-      scrapOrFish[fishName] = scrapOrFish[fishName] - 1;
-      Player.money = Player.money.add(FISH_DICT[fishName].value * Effects.fishingValueMult());
+    if (playerDict[fishName] > 0) {
+      playerDict[fishName] = playerDict[fishName] - 1;
+      Player.money = Player.money.add(
+        dataDict[fishName].value * Effects.fishingValueMult()
+      );
 
       if (all) FishFunctions.sellFish(fishName, true);
     }

@@ -1,6 +1,16 @@
 let PrestigeFunctions = {
   achievedMilestones: [],
-  checkMilestones: function () {},
+  checkMilestones: function () {
+    Object.keys(this.milestones).forEach((key) => {
+      if (this.milestones[key].req()) {
+        this.achievedMilestones.push(key);
+        this.milestones[key].eff();
+
+        DisplayFunctions.elDisabled(`prestige-milestone-${key}`, false);
+        DisplayFunctions.elClass(`prestige-milestone-${key}`, "bought", "add");
+      }
+    });
+  },
   hasMilestone: function (id) {
     return this.achievedMilestones.includes(id);
   },
@@ -16,8 +26,8 @@ let PrestigeFunctions = {
       Player.totalPrestigePoints = Player.totalPrestigePoints.add(
         this.prestigeGain()
       );
-      Player.reset();
       this.checkMilestones();
+      Player.reset();
     }
   },
   prestigeGain: function () {
