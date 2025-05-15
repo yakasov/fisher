@@ -5,7 +5,11 @@ let DisplayFunctions = {
     else if (type === "html") el.innerHTML = content;
   },
   elDisabled: function (elName, disabled) {
-    document.getElementById(elName).disabled = disabled;
+    if (disabled) {
+      document.getElementById(elName).setAttribute("disabled", "");
+    } else {
+      document.getElementById(elName).removeAttribute("disabled");
+    }
   },
   elClass: function (elName, className, type) {
     let el = document.getElementById(elName);
@@ -15,38 +19,54 @@ let DisplayFunctions = {
       el.classList.add(className);
     }
   },
+  elOnClick: function (elName, func) {
+    document.getElementById(elName).onclick = func;
+  },
   getFishDisplay: function (type) {
+    const dict = type === "scrap" ? SCRAP_DICT : FISH_DICT;
+    const scrapOrFish = type === "scrap" ? Player.scrap : Player.fish;
+
+    let itemsArray = Object.entries(scrapOrFish)
+      .filter(([itemName]) => dict[itemName]?.type === type)
+      .sort(([aName], [bName]) => {
+        const aDisplayName =
+          dict[aName].name ?? aName.charAt(0).toUpperCase() + aName.slice(1);
+        const bDisplayName =
+          dict[bName].name ?? bName.charAt(0).toUpperCase() + bName.slice(1);
+        return aDisplayName.localeCompare(bDisplayName);
+      });
+
     let text = "";
-    Object.entries(fish).forEach(([fishName, fishAmount]) => {
-      if (FISH_DICT[fishName].type !== type) return;
-      const upperFishName =
-        FISH_DICT[fishName].name ??
-        fishName.charAt(0).toUpperCase() + fishName.slice(1);
+    itemsArray.forEach(([itemName, itemAmount]) => {
+      const upperItemName =
+        dict[itemName].name ??
+        itemName.charAt(0).toUpperCase() + itemName.slice(1);
       text += `
       <div class="fish-line">
         <div class="fish-info">
-          <img src="images/${fishName}.png" class="fish-img" />
-          <span class="fish-name">${upperFishName}</span>
-          <span class="fish-amount">${fishAmount}</span>
+          <img src="images/${itemName}.png" class="fish-img" />
+          <span class="fish-name">${upperItemName}</span>
+          <span class="fish-amount">${itemAmount}</span>
         </div>
-        <button class="fish-sell-btn" onclick="FishFunctions.sellFish('${fishName}')" ${
-        fishAmount === 0 || FISH_DICT[fishName].noSell ? 'disabled=""' : ""
+        <button class="fish-sell-btn" onclick="FishFunctions.sellFish('${itemName}')" ${
+        itemAmount === 0 || dict[itemName].noSell ? 'disabled=""' : ""
       }>${
-        FISH_DICT[fishName].noSell
+        dict[itemName].noSell
           ? "Cannot sell"
           : "Sell for " +
-            f(FISH_DICT[fishName].value * Effects.fishingValueMult()) +
+            f(dict[itemName].value * Effects.fishingValueMult()) +
             "$"
       }</button></div>`;
     });
+
     return text;
   },
   updateDisplays: function () {
-    this.elInner("money-display", "text", `You have ${f(money)}$.`);
+    this.elInner("money-display", "text", `You have ${f(Player.money)}$.`);
     this.elInner(
       "fish-count-display",
       "text",
-      `You have ${FishFunctions.fishLength()} fish.`
+      `You have ${Player.fishLength()} fish.`
     );
     this.elInner(
       "fish-delay",
@@ -54,45 +74,57 @@ let DisplayFunctions = {
       `Fishing recharge: ${f(
         FishFunctions.fishingRecharge
       )}s\nMax recharge: ${f(Effects.fishingDelay())}s${
-        craftables.metalfisher > 0
+        Player.craftables.metalfisher > 0
           ? "\nAuto-fishing every " + f(Effects.autofishingInterval()) + "s"
           : ""
       }`
     );
     this.elInner(
       "fish-max-display",
+      "html",
+      `You can hold up to ${Effects.fishMax()} fish.${
+        PERMANENTS.scrapfishing.bought
+          ? `<br />This also lets you hold up to ${Effects.scrapMax()} scrap items.`
+          : ""
+      }`
+    );
+
+    this.elInner(
+      "prestige-gain",
+      "html",
+      `You can Prestige for <b>${PrestigeFunctions.prestigeGain()} Prestige Points.</b>`
+    );
+    this.elInner(
+      "prestige-points",
       "text",
-      `You can hold up to ${Effects.fishMax()} fish.`
+      `You have ${f(Player.prestigePoints, 0)} Prestige Points.`
     );
   },
   updateOnDemand: function () {
-    this.elInner("fish-amounts", "html", this.getFishDisplay("common"));
+    this.elInner("normal-amounts", "html", this.getFishDisplay("normal"));
+    this.elInner("lake-amounts", "html", this.getFishDisplay("lake"));
     this.elInner("scrap-amounts", "html", this.getFishDisplay("scrap"));
-    this.elDisabled("sellall-button", FishFunctions.fishLength() === 0);
+    this.elDisabled("sellall-button", Player.fishLength() === 0);
 
     this.elInner(
       "fishingdelay-upgrade",
       "text",
-      `Buy for ${f(UPGRADES.fishingdelay.cost(UPGRADES.fishingdelay.bought))}$`
+      `Buy for ${f(UPGRADES.fishingdelay())}$`
     );
     this.elInner(
       "fishingvalue-upgrade",
       "text",
-      `Buy for ${f(UPGRADES.fishingvalue.cost(UPGRADES.fishingvalue.bought))}$`
+      `Buy for ${f(UPGRADES.fishingvalue())}$`
     );
     this.elInner(
       "fishingcapacity-upgrade",
       "text",
-      `Buy for ${f(
-        UPGRADES.fishingcapacity.cost(UPGRADES.fishingcapacity.bought)
-      )}$`
+      `Buy for ${f(UPGRADES.fishingcapacity())}$`
     );
     this.elInner(
       "metalfisheroverclock-upgrade",
       "text",
-      `Buy for ${f(
-        UPGRADES.metalfisheroverclock.cost(UPGRADES.metalfisheroverclock.bought)
-      )}$`
+      `Buy for ${f(UPGRADES.metalfisheroverclock())}$`
     );
 
     this.elInner(
@@ -119,8 +151,8 @@ let DisplayFunctions = {
     this.elInner(
       "crafting-metalfisher-amount",
       "text",
-      `${craftables.metalfisher} Handmade Fisher${
-        craftables.metalfisher === 1 ? "" : "s"
+      `${Player.craftables.metalfisher} Handmade Fisher${
+        Player.craftables.metalfisher === 1 ? "" : "s"
       }`
     );
     this.elInner(
@@ -136,5 +168,20 @@ let DisplayFunctions = {
       this.elClass("crafting-scraprecipes", "hidden", "remove");
       this.elClass("crafting-automaticfishers", "hidden", "remove");
     }
+
+    if (Permits.hasPermit(0)) {
+      this.elClass("prestige-tab-button", "hidden", "remove");
+    }
+
+    this.elInner(
+      "prestige_cheaperupgrades-upgrade",
+      "text",
+      `Buy for ${f(UPGRADES.prestige_cheaperupgrades())} PP`
+    );
+    this.elInner(
+      "prestige_bonusfishchance-upgrade",
+      "text",
+      `Buy for ${f(UPGRADES.prestige_bonusfishchance())} PP`
+    );
   },
 };

@@ -1,43 +1,77 @@
 function createSave() {
-  const upgradesToSave = {};
   const permanentsToSave = {};
 
-  Object.entries(UPGRADES).forEach(([k, v]) => (upgradesToSave[k] = v.bought));
   Object.entries(PERMANENTS).forEach(
     ([k, v]) => (permanentsToSave[k] = v.bought)
   );
 
   return {
-    allowedFish,
-    auto: JSON.stringify(auto),
-    craftables: JSON.stringify(craftables),
-    fish,
-    money,
+    allowedFish: Player.allowedFish,
+    craftables: JSON.stringify(Player.craftables),
+    fish: Player.fish,
+    money: Player.money.toString(),
     permanentsToSave,
+    permits: JSON.stringify(Permits.boughtPermits),
+    prestigePoints: Player.prestigePoints.toString(),
+    totalPrestigePoints: Player.totalPrestigePoints.toString(),
     saveTime: Math.floor(Date.now() / 1000),
-    upgradesToSave,
+    scrap: Player.scrap,
+    upgrades: JSON.stringify(Player.upgrades),
   };
 }
 
 function saveGame() {
-  localStorage.setItem("save", btoa(JSON.stringify(createSave())));
+  localStorage.setItem("fisherSave", btoa(JSON.stringify(createSave())));
 }
 
 function loadGame() {
-  const rawSave = localStorage.getItem("save");
+  const rawSave = localStorage.getItem("fisherSave");
   if (!rawSave) return;
 
   const loadedSave = JSON.parse(atob(rawSave));
 
-  allowedFish = loadedSave.allowedFish;
-  //auto = JSON.parse(loadedSave.auto);
-  craftables = JSON.parse(loadedSave.craftables);
-  Object.entries(loadedSave.fish).forEach(([k, v]) => (fish[k] = v));
-  money = new Decimal(loadedSave.money);
+  Player.allowedFish = loadedSave.allowedFish;
+  Player.craftables = JSON.parse(loadedSave.craftables);
+  Object.entries(loadedSave.fish).forEach(([k, v]) => (Player.fish[k] = v));
+  Object.entries(loadedSave.scrap).forEach(([k, v]) => (Player.scrap[k] = v));
+  Player.money = new Decimal(loadedSave.money);
+  Permits.boughtPermits = JSON.parse(loadedSave.permits);
   Object.entries(loadedSave.permanentsToSave).forEach(
     ([k, v]) => (PERMANENTS[k].bought = v)
   );
-  Object.entries(loadedSave.upgradesToSave).forEach(
-    ([k, v]) => (UPGRADES[k].bought = v)
-  );
+  Player.prestigePoints = new Decimal(loadedSave.prestigePoints);
+  Player.totalPrestigePoints = new Decimal(loadedSave.totalPrestigePoints);
+  Player.upgrades = JSON.parse(loadedSave.upgrades);
+
+  loadPermits();
+  PrestigeFunctions.checkMilestones();
+}
+
+function loadPermits() {
+  Permits.boughtPermits.forEach((p) => {
+    DisplayFunctions.elClass(`permit-${p}`, "bought", "add");
+    DisplayFunctions.elOnClick(`permit-${p}`, () => {});
+  });
+}
+
+function exportSave() {
+  saveGame();
+  document.getElementById("save-data").value =
+    localStorage.getItem("fisherSave") || "";
+}
+
+function importSave() {
+  const data = document.getElementById("save-data").value.trim();
+  if (!data) return alert("Paste your save data first!");
+  localStorage.setItem("fisherSave", data);
+  location.reload();
+}
+
+function resetSave() {
+  if (
+    confirm("Are you sure you want to reset your save? This cannot be undone!")
+  ) {
+    localStorage.removeItem("fisherSave");
+    location.reload();
+  }
 }
