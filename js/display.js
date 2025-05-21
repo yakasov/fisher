@@ -1,4 +1,4 @@
-let DisplayFunctions = {
+let Display = {
   elInner: function (elName, type, content) {
     let el = document.getElementById(elName);
     if (type === "text") el.innerText = content;
@@ -72,7 +72,7 @@ let DisplayFunctions = {
       "fish-delay",
       "text",
       `Fishing recharge: ${f(
-        FishFunctions.fishingRecharge
+        Fish.fishingRecharge
       )}s\nMax recharge: ${f(Effects.fishingDelay())}s${
         Player.craftables.metalfisher > 0
           ? "\nAuto-fishing every " + f(Effects.autofishingInterval()) + "s"
@@ -92,7 +92,7 @@ let DisplayFunctions = {
     this.elInner(
       "prestige-gain",
       "html",
-      `You can Prestige for <b>${PrestigeFunctions.prestigeGain()} Prestige Points.</b>`
+      `You can Prestige for <b>${Prestige.prestigeGain()} Prestige Points.</b>`
     );
     this.elInner(
       "prestige-points",
@@ -109,22 +109,22 @@ let DisplayFunctions = {
     this.elInner(
       "fishingdelay-upgrade",
       "text",
-      `Buy for ${f(UPGRADES.fishingdelay())}$`
+      `Buy for ${f(getUpgradeCost("fishingDelay"))}$`
     );
     this.elInner(
       "fishingvalue-upgrade",
       "text",
-      `Buy for ${f(UPGRADES.fishingvalue())}$`
+      `Buy for ${f(getUpgradeCost("fishingValue"))}$`
     );
     this.elInner(
       "fishingcapacity-upgrade",
       "text",
-      `Buy for ${f(UPGRADES.fishingcapacity())}$`
+      `Buy for ${f(getUpgradeCost("fishingCapacity"))}$`
     );
     this.elInner(
       "metalfisheroverclock-upgrade",
       "text",
-      `Buy for ${f(UPGRADES.metalfisheroverclock())}$`
+      `Buy for ${f(getUpgradeCost("handmadeBoost"))}$`
     );
 
     this.elInner(
@@ -158,7 +158,7 @@ let DisplayFunctions = {
     this.elInner(
       "crafting-metalfisher-button",
       "text",
-      `Craft for ${CraftFunctions.craftCost("metalfisher")} Metal`
+      `Craft for ${Craft.craftCost("metalfisher")} Metal`
     );
 
     if (PERMANENTS.scrapfishing.bought) {
@@ -176,23 +176,23 @@ let DisplayFunctions = {
     this.elInner(
       "prestige_cheaperupgrades-upgrade",
       "text",
-      Player.upgrades.prestige_cheaperupgrades < 6
-        ? `Buy for ${f(UPGRADES.prestige_cheaperupgrades())} PP`
+      getUpgradeAmount("cheaperUpgrades") < getUpgradeMax("cheaperUpgrades")
+        ? `Buy for ${f(getUpgradeCost("cheaperUpgrades"))} PP`
         : "Maxed!"
     );
     this.elDisabled(
       "prestige_cheaperupgrades-upgrade",
-      Player.upgrades.prestige_cheaperupgrades >= 6
+      getUpgradeAmount("cheaperUpgrades") >= getUpgradeMax("cheaperUpgrades")
     );
     this.elInner(
       "prestige_bonusfishchance-upgrade",
       "text",
-      Player.upgrades.prestige_bonusfishchance < 10 ?
-      `Buy for ${f(UPGRADES.prestige_bonusfishchance())} PP` : "Maxed!"
+      getUpgradeAmount("bonusFishChance") < getUpgradeMax("bonusFishChance")?
+      `Buy for ${f(getUpgradeCost("bonusFishChance"))} PP` : "Maxed!"
     );
     this.elDisabled(
       "prestige_bonusfishchance-upgrade",
-      Player.upgrades.prestige_bonusfishchance >= 10
+      getUpgradeAmount("bonusFishChance") >= getUpgradeMax("bonusFishChance")
     );
   },
 };

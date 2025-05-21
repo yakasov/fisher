@@ -1,4 +1,4 @@
-let CraftFunctions = {
+let Craft = {
   craft: function (recipe) {
     switch (recipe) {
       case "scraptometal":
@@ -30,7 +30,7 @@ let CraftFunctions = {
         break;
     }
 
-    DisplayFunctions.updateOnDemand();
+    Display.updateOnDemand();
   },
   craftCost: function (recipe) {
     switch (recipe) {

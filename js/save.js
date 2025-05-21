@@ -44,13 +44,13 @@ function loadGame() {
   Player.upgrades = JSON.parse(loadedSave.upgrades);
 
   loadPermits();
-  PrestigeFunctions.checkMilestones();
+  Prestige.checkMilestones();
 }
 
 function loadPermits() {
   Permits.boughtPermits.forEach((p) => {
-    DisplayFunctions.elClass(`permit-${p}`, "bought", "add");
-    DisplayFunctions.elOnClick(`permit-${p}`, () => {});
+    Display.elClass(`permit-${p}`, "bought", "add");
+    Display.elOnClick(`permit-${p}`, () => {});
   });
 }
 

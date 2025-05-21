@@ -6,9 +6,9 @@ let Permits = {
       this.boughtPermits.push(id);
       this.permits[id].func();
 
-      DisplayFunctions.elClass(`permit-${id}`, "bought", "add");
-      DisplayFunctions.elOnClick(`permit-${id}`, () => {});
-      DisplayFunctions.updateOnDemand();
+      Display.elClass(`permit-${id}`, "bought", "add");
+      Display.elOnClick(`permit-${id}`, () => {});
+      Display.updateOnDemand();
     }
   },
   hasPermit: function (id) {

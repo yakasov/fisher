@@ -6,13 +6,13 @@ let Effects = {
     return this.fishMax() / 2;
   },
   fishBucketSize: function () {
-    return Player.upgrades.fishingcapacity * 10;
+    return getUpgradeAmount("fishingCapacity") * 10;
   },
   fishingDelay: function () {
-    return 3 * 0.875 ** Player.upgrades.fishingdelay;
+    return 3 * 0.875 ** getUpgradeAmount("fishingDelay");
   },
   fishingValueMult: function () {
-    return 1 * 1.25 ** Player.upgrades.fishingvalue;
+    return 1 * 1.25 ** getUpgradeAmount("fishingValue");
   },
   autofishingInterval: function () {
     return (
@@ -21,6 +21,6 @@ let Effects = {
     );
   },
   metalfisherOverclock: function () {
-    return 1 + 0.125 * Player.upgrades.metalfisheroverclock;
+    return 1 + 0.125 * getUpgradeAmount("handmadeBoost");
   },
 };

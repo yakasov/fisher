@@ -1,4 +1,4 @@
-let FishFunctions = {
+let Fish = {
   goFish: function (auto = false, bonus = false) {
     if (
       Player.fishLength() >= Effects.fishMax() &&
@@ -17,15 +17,15 @@ let FishFunctions = {
         ? (scrapOrFish[randomFish[0]] = 1)
         : (scrapOrFish[randomFish[0]] = scrapOrFish[randomFish[0]] + 1);
 
-    if (!bonus && Player.upgrades.prestige_bonusfishchance > 0) {
+    if (!bonus && getUpgradeAmount("bonusFishChance") > 0) {
       let bonusChance = Math.random() * 100;
-      if (bonusChance <= Player.upgrades.prestige_bonusfishchance * 10) {
+      if (bonusChance <= getUpgradeAmount("bonusFishChance") * 10) {
         return this.goFish(auto, true);
       } 
     }
 
     if (!auto) this.fishingRecharge = Effects.fishingDelay();
-    DisplayFunctions.updateOnDemand();
+    Display.updateOnDemand();
   },
   getRandomFish: function () {
     calculateFishChances(Player.allowedFish);
@@ -82,17 +82,17 @@ let FishFunctions = {
         dataDict[fishName].value * Effects.fishingValueMult()
       );
 
-      if (all) FishFunctions.sellFish(fishName, true);
+      if (all) Fish.sellFish(fishName, true);
     }
 
-    if (!all) DisplayFunctions.updateOnDemand();
+    if (!all) Display.updateOnDemand();
   },
   sellAll: function () {
     Object.keys(Player.fish).forEach((k) => {
-      FishFunctions.sellFish(k, true);
+      Fish.sellFish(k, true);
     });
 
-    DisplayFunctions.updateOnDemand();
+    Display.updateOnDemand();
   },
   fishingRecharge: 0,
 };
