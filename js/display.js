@@ -176,12 +176,23 @@ let DisplayFunctions = {
     this.elInner(
       "prestige_cheaperupgrades-upgrade",
       "text",
-      `Buy for ${f(UPGRADES.prestige_cheaperupgrades())} PP`
+      Player.upgrades.prestige_cheaperupgrades < 6
+        ? `Buy for ${f(UPGRADES.prestige_cheaperupgrades())} PP`
+        : "Maxed!"
+    );
+    this.elDisabled(
+      "prestige_cheaperupgrades-upgrade",
+      Player.upgrades.prestige_cheaperupgrades >= 6
     );
     this.elInner(
       "prestige_bonusfishchance-upgrade",
       "text",
-      `Buy for ${f(UPGRADES.prestige_bonusfishchance())} PP`
+      Player.upgrades.prestige_bonusfishchance < 10 ?
+      `Buy for ${f(UPGRADES.prestige_bonusfishchance())} PP` : "Maxed!"
+    );
+    this.elDisabled(
+      "prestige_bonusfishchance-upgrade",
+      Player.upgrades.prestige_bonusfishchance >= 10
     );
   },
 };

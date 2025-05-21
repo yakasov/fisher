@@ -1,5 +1,5 @@
 let FishFunctions = {
-  goFish: function (auto = false) {
+  goFish: function (auto = false, bonus = false) {
     if (
       Player.fishLength() >= Effects.fishMax() &&
       Player.scrapLength() >= Effects.scrapMax()
@@ -16,6 +16,13 @@ let FishFunctions = {
       !scrapOrFish[randomFish[0]] || scrapOrFish[randomFish[0]] === 0
         ? (scrapOrFish[randomFish[0]] = 1)
         : (scrapOrFish[randomFish[0]] = scrapOrFish[randomFish[0]] + 1);
+
+    if (!bonus && Player.upgrades.prestige_bonusfishchance > 0) {
+      let bonusChance = Math.random() * 100;
+      if (bonusChance <= Player.upgrades.prestige_bonusfishchance * 10) {
+        return this.goFish(auto, true);
+      } 
+    }
 
     if (!auto) this.fishingRecharge = Effects.fishingDelay();
     DisplayFunctions.updateOnDemand();
