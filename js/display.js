@@ -22,6 +22,22 @@ let Display = {
   elOnClick: function (elName, func) {
     document.getElementById(elName).onclick = func;
   },
+  elGenericUpgrade: function (upgrade, currencyString, multText = null) {
+    let cost = getUpgradeCost(upgrade);
+    let amount = getUpgradeAmount(upgrade);
+    let max = getUpgradeMax(upgrade);
+
+    this.elInner(
+      `${upgrade}-btn`,
+      "text",
+      amount < max ? `Buy for ${f(cost)}${currencyString}` : `Maxed!`
+    );
+    this.elDisabled(`${upgrade}-btn`, amount >= max);
+
+    if (multText) {
+      this.elInner(`${upgrade}-mult`, "text", multText);
+    }
+  },
   getFishDisplay: function (type) {
     const dict = type === "scrap" ? SCRAP_DICT : FISH_DICT;
     const scrapOrFish = type === "scrap" ? Player.scrap : Player.fish;
@@ -71,9 +87,9 @@ let Display = {
     this.elInner(
       "fish-delay",
       "text",
-      `Fishing recharge: ${f(
-        Fish.fishingRecharge
-      )}s\nMax recharge: ${f(Effects.fishingDelay())}s${
+      `Fishing recharge: ${f(Fish.fishingRecharge)}s\nMax recharge: ${f(
+        Effects.fishingDelay()
+      )}s${
         Player.craftables.metalfisher > 0
           ? "\nAuto-fishing every " + f(Effects.autofishingInterval()) + "s"
           : ""
@@ -106,47 +122,10 @@ let Display = {
     this.elInner("scrap-amounts", "html", this.getFishDisplay("scrap"));
     this.elDisabled("sellall-button", Player.fishLength() === 0);
 
-    this.elInner(
-      "fishingdelay-upgrade",
-      "text",
-      `Buy for ${f(getUpgradeCost("fishingDelay"))}$`
-    );
-    this.elInner(
-      "fishingvalue-upgrade",
-      "text",
-      `Buy for ${f(getUpgradeCost("fishingValue"))}$`
-    );
-    this.elInner(
-      "fishingcapacity-upgrade",
-      "text",
-      `Buy for ${f(getUpgradeCost("fishingCapacity"))}$`
-    );
-    this.elInner(
-      "metalfisheroverclock-upgrade",
-      "text",
-      `Buy for ${f(getUpgradeCost("handmadeBoost"))}$`
-    );
-
-    this.elInner(
-      "fishingdelay-mult",
-      "text",
-      `( ${f(Effects.fishingDelay() / 3)}x )`
-    );
-    this.elInner(
-      "fishingvalue-mult",
-      "text",
-      `( ${f(Effects.fishingValueMult())}x )`
-    );
-    this.elInner(
-      "fishingcapacity-bonus",
-      "text",
-      `( +${f(Effects.fishBucketSize())} )`
-    );
-    this.elInner(
-      "metalfisheroverclock-mult",
-      "text",
-      `( ${f(Effects.metalfisherOverclock())}x )`
-    );
+    this.elGenericUpgrade("fishingDelay", "$", `( ${f(Effects.fishingDelay() / 3)}x )`);
+    this.elGenericUpgrade("fishingValue", "$", `( ${f(Effects.fishingValueMult())}x )`);
+    this.elGenericUpgrade("fishingCapacity", "$", `( +${f(Effects.fishBucketSize())} )`);
+    this.elGenericUpgrade("handmadeBoost", "$", `( ${f(Effects.metalfisherOverclock())}x )`);
 
     this.elInner(
       "crafting-metalfisher-amount",
@@ -173,26 +152,7 @@ let Display = {
       this.elClass("prestige-tab-button", "hidden", "remove");
     }
 
-    this.elInner(
-      "prestige_cheaperupgrades-upgrade",
-      "text",
-      getUpgradeAmount("cheaperUpgrades") < getUpgradeMax("cheaperUpgrades")
-        ? `Buy for ${f(getUpgradeCost("cheaperUpgrades"))} PP`
-        : "Maxed!"
-    );
-    this.elDisabled(
-      "prestige_cheaperupgrades-upgrade",
-      getUpgradeAmount("cheaperUpgrades") >= getUpgradeMax("cheaperUpgrades")
-    );
-    this.elInner(
-      "prestige_bonusfishchance-upgrade",
-      "text",
-      getUpgradeAmount("bonusFishChance") < getUpgradeMax("bonusFishChance")?
-      `Buy for ${f(getUpgradeCost("bonusFishChance"))} PP` : "Maxed!"
-    );
-    this.elDisabled(
-      "prestige_bonusfishchance-upgrade",
-      getUpgradeAmount("bonusFishChance") >= getUpgradeMax("bonusFishChance")
-    );
+    this.elGenericUpgrade("cheaperUpgrades", " PP", `( -${f(12.5 * getUpgradeAmount("cheaperUpgrades"))}% )`);
+    this.elGenericUpgrade("bonusFishChance", " PP", ` ( +${f(10 * getUpgradeAmount("bonusFishChance"), 0)}% )`);
   },
 };
