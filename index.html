@@ -40,9 +40,7 @@
       <div class="main flex-row">
         <section class="panel">
           <div class="center">
-            <button id="gofish-button" onclick="FishFunctions.goFish()">
-              Go fish
-            </button>
+            <button id="gofish-button" onclick="Fish.goFish()">Go fish</button>
             <p id="fish-delay">Fishing recharge: 0.00s</p>
           </div>
 
@@ -53,11 +51,11 @@
                 <div class="upgrade-row">
                   <div>Reduce fishing recharge delay by 12.5%</div>
                   <div>
-                    <span id="fishingdelay-mult">( 1.00x )</span>
+                    <span id="fishingDelay-mult">( 1.00x )</span>
                     <button
                       class="fish-sell-btn"
-                      id="fishingdelay-upgrade"
-                      onclick="buyUpgrade('fishingdelay')"
+                      id="fishingDelay-btn"
+                      onclick="buyUpgrade('fishingDelay')"
                     >
                       Buy for 5$
                     </button>
@@ -66,11 +64,11 @@
                 <div class="upgrade-row">
                   <div>Increase fish sell value by 25%</div>
                   <div>
-                    <span id="fishingvalue-mult">( 1.00x )</span>
+                    <span id="fishingValue-mult">( 1.00x )</span>
                     <button
                       class="fish-sell-btn"
-                      id="fishingvalue-upgrade"
-                      onclick="buyUpgrade('fishingvalue')"
+                      id="fishingValue-btn"
+                      onclick="buyUpgrade('fishingValue')"
                     >
                       Buy for 10$
                     </button>
@@ -79,11 +77,11 @@
                 <div class="upgrade-row">
                   <div>Increase bucket capacity by 10</div>
                   <div>
-                    <span id="fishingcapacity-bonus">( +0 )</span>
+                    <span id="fishingCapacity-mult">( +0 )</span>
                     <button
                       class="fish-sell-btn"
-                      id="fishingcapacity-upgrade"
-                      onclick="buyUpgrade('fishingcapacity')"
+                      id="fishingCapacity-btn"
+                      onclick="buyUpgrade('fishingCapacity')"
                     >
                       Buy for 10$
                     </button>
@@ -118,7 +116,7 @@
                     <button
                       class="upgrade-btn"
                       id="crafting-alltometal"
-                      onclick="CraftFunctions.craft('alltometal')"
+                      onclick="Craft.craft('alltometal')"
                       style="float: left; margin-left: 0"
                     >
                       Convert all to Metal
@@ -126,14 +124,14 @@
                     <button
                       class="upgrade-btn"
                       id="crafting-scraptometal"
-                      onclick="CraftFunctions.craft('scraptometal')"
+                      onclick="Craft.craft('scraptometal')"
                     >
                       Convert 5 Scrap to Metal
                     </button>
                     <button
                       class="upgrade-btn"
                       id="crafting-rusttometal"
-                      onclick="CraftFunctions.craft('rusttometal')"
+                      onclick="Craft.craft('rusttometal')"
                     >
                       Convert 3 Rusted Metal to Metal
                     </button>
@@ -149,7 +147,7 @@
                     <button
                       class="fish-sell-btn"
                       id="crafting-metalfisher-button"
-                      onclick="CraftFunctions.craft('metalfisher')"
+                      onclick="Craft.craft('metalfisher')"
                     >
                       Craft for 3 Metal
                     </button>
@@ -158,11 +156,11 @@
                 <div class="upgrade-row">
                   <div>Overclock automatic fishers by 12.5%</div>
                   <div>
-                    <span id="metalfisheroverclock-mult">( 1.00x )</span>
+                    <span id="handmadeBoost-mult">( 1.00x )</span>
                     <button
                       class="fish-sell-btn"
-                      id="metalfisheroverclock-upgrade"
-                      onclick="buyUpgrade('metalfisheroverclock')"
+                      id="handmadeBoost-btn"
+                      onclick="buyUpgrade('handmadeBoost')"
                     >
                       Buy for 50$
                     </button>
@@ -179,7 +177,7 @@
             <br /><br />
             <span id="fish-max-display">You can hold up to 20 fish.</span>
             <p>
-              <button id="sellall-button" onclick="FishFunctions.sellAll()">
+              <button id="sellall-button" onclick="Fish.sellAll()">
                 Sell all
               </button>
             </p>
@@ -193,18 +191,17 @@
 
     <div id="prestige-tab" class="tab-content" style="display: none">
       <div class="center" style="margin-top: 2rem">
-        <h2>Prestige</h2>
         <p id="prestige-gain">You can Prestige for x Prestige Points.</p>
-        <p>
+        <p style="line-height: 0px">
           Your Prestige gain is based off of the total amount of Scrap and Fish
           you have.
         </p>
-        <button class="prestige-btn" onclick="PrestigeFunctions.prestige()">
+        <p class="prestige-points">
+          <span id="prestige-points">0</span>
+        </p>
+        <button class="prestige-btn" onclick="Prestige.prestige()">
           Prestige
         </button>
-        <div class="prestige-points">
-          Prestige Points: <span id="prestige-points">0</span>
-        </div>
         <div class="prestige-main-row">
           <section class="curved-panel">
             <h3>Upgrades</h3>
@@ -215,10 +212,13 @@
                   Reduces the cost of fishing upgrades by 12.5%<br />(additive,
                   max -75%).
                 </div>
+                <div id="cheaperUpgrades-mult">
+                  ( -0% )
+                </div>
                 <button
                   class="upgrade-btn"
-                  id="prestige_cheaperupgrades-upgrade"
-                  onclick="buyUpgrade('prestige_cheaperupgrades')"
+                  id="cheaperUpgrades-btn"
+                  onclick="buyUpgrade('cheaperUpgrades')"
                 >
                   Buy (5 PP)
                 </button>
@@ -226,12 +226,16 @@
               <div class="prestige-upgrade-row">
                 <div>
                   <b>Bonus Fish Chance</b><br />
-                  Add a 10% chance to get a bonus fish when you go fishing.
+                  Add a 10% chance to get a bonus fish when you go fishing.<br />(additive,
+                  max 100%).
+                </div>
+                <div id="bonusFishChance-mult">
+                  ( -0% )
                 </div>
                 <button
                   class="upgrade-btn"
-                  id="prestige_bonusfishchance-upgrade"
-                  onclick="buyUpgrade('prestige_bonusfishchance')"
+                  id="bonusFishChance-btn"
+                  onclick="buyUpgrade('bonusFishChance')"
                 >
                   Buy (8 PP)
                 </button>

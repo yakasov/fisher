@@ -4,21 +4,6 @@ let auto = {
   metalfisher: 0,
 };
 
-function buyUpgrade(upgrade) {
-  const u = UPGRADES[upgrade]();
-  const uc = getUpgradeClass(upgrade);
-
-  if (uc === "normal" && Player.money.gte(u)) {
-    Player.money = Player.money.sub(u);
-    Player.upgrades[upgrade] = Player.upgrades[upgrade] + 1;
-  } else if (uc === "prestige" && Player.prestigePoints.gte(u)) {
-    Player.prestigePoints = Player.prestigePoints.sub(u);
-    Player.upgrades[upgrade] = Player.upgrades[upgrade] + 1;
-  }
-
-  DisplayFunctions.updateOnDemand();
-}
-
 function buyPermanent(upgrade) {
   const u = PERMANENTS[upgrade];
   if (Player.money.gte(u) && !u.bought) {
@@ -34,27 +19,27 @@ function buyPermanent(upgrade) {
     }
   }
 
-  DisplayFunctions.updateOnDemand();
+  Display.updateOnDemand();
 }
 
 function updateFishingRecharge() {
   const goFishButton = document.getElementById("gofish-button");
-  if (FishFunctions.fishingRecharge === 0) {
+  if (Fish.fishingRecharge === 0) {
     goFishButton.disabled = false;
   } else if (!goFishButton.disabled) {
     goFishButton.disabled = true;
   }
 
   // Improve this hack for slight maths inaccuracy
-  if (FishFunctions.fishingRecharge > 0) FishFunctions.fishingRecharge -= 0.025;
-  if (FishFunctions.fishingRecharge < 0) FishFunctions.fishingRecharge = 0;
+  if (Fish.fishingRecharge > 0) Fish.fishingRecharge -= 0.025;
+  if (Fish.fishingRecharge < 0) Fish.fishingRecharge = 0;
 }
 
 function gameLoop() {
   currentTime += 0.025;
-  DisplayFunctions.updateDisplays();
+  Display.updateDisplays();
   updateFishingRecharge();
-  FishFunctions.autoFish();
+  Fish.autoFish();
 
   // in case anybody wants to cheat but they don't realise it needs to be a Decimal
   if (typeof Player.money === "number")
@@ -65,4 +50,4 @@ loadGame();
 calculateFishChances();
 setInterval(gameLoop, 25);
 setInterval(saveGame, 5000);
-DisplayFunctions.updateOnDemand();
+Display.updateOnDemand();

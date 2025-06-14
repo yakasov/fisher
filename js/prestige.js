@@ -1,4 +1,4 @@
-let PrestigeFunctions = {
+let Prestige = {
   achievedMilestones: [],
   checkMilestones: function () {
     Object.keys(this.milestones).forEach((key) => {
@@ -6,8 +6,8 @@ let PrestigeFunctions = {
         this.achievedMilestones.push(key);
         this.milestones[key].eff();
 
-        DisplayFunctions.elDisabled(`prestige-milestone-${key}`, false);
-        DisplayFunctions.elClass(`prestige-milestone-${key}`, "bought", "add");
+        Display.elDisabled(`prestige-milestone-${key}`, false);
+        Display.elClass(`prestige-milestone-${key}`, "bought", "add");
       }
     });
   },

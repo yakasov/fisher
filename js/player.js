@@ -9,13 +9,17 @@ let Player = {
   scrap: {},
   money: new Decimal(0),
   upgrades: {
-    fishingdelay: 0,
-    fishingvalue: 0,
-    fishingcapacity: 0,
-    metalfisheroverclock: 0,
+    normal: {
+      fishingDelay: 0,
+      fishingValue: 0,
+      fishingCapacity: 0,
+      handmadeBoost: 0,
+    },
 
-    prestige_cheaperupgrades: 0,
-    prestige_bonusfishchance: 0,
+    prestige: {
+      cheaperUpgrades: 0,
+      bonusFishChance: 0,
+    },
   },
   fishLength: function () {
     return Object.values(this.fish).reduce((a, b) => a + b, 0);
@@ -36,7 +40,7 @@ let Player = {
       this.craftables[key] = 0;
     });
 
-    if (PrestigeFunctions.hasMilestone("0")) {
+    if (Prestige.hasMilestone("0")) {
       this.craftables.metalfisher = 1;
     }
   },
