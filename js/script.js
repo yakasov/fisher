@@ -37,6 +37,7 @@ function updateFishingRecharge() {
 
 function gameLoop() {
   currentTime += 0.025;
+  Player.stats.timePlayed += 0.025;
   Display.updateDisplays();
   updateFishingRecharge();
   Fish.autoFish();

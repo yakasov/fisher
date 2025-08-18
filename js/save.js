@@ -16,6 +16,7 @@ function createSave() {
     totalPrestigePoints: Player.totalPrestigePoints.toString(),
     saveTime: Math.floor(Date.now() / 1000),
     scrap: Player.scrap,
+    stats: JSON.stringify(Player.stats),
     upgrades: JSON.stringify(Player.upgrades),
   };
 }
@@ -29,6 +30,7 @@ function loadGame() {
   if (!rawSave) return;
 
   const loadedSave = JSON.parse(atob(rawSave));
+  console.log(loadedSave);
 
   Player.allowedFish = loadedSave.allowedFish;
   Player.craftables = JSON.parse(loadedSave.craftables);
@@ -40,6 +42,7 @@ function loadGame() {
     ([k, v]) => (PERMANENTS[k].bought = v)
   );
   Player.prestigePoints = new Decimal(loadedSave.prestigePoints);
+  Player.stats = JSON.parse(loadedSave.stats ?? "{}");
   Player.totalPrestigePoints = new Decimal(loadedSave.totalPrestigePoints);
   Player.upgrades = JSON.parse(loadedSave.upgrades);
 

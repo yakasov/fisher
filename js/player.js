@@ -21,6 +21,10 @@ let Player = {
       bonusFishChance: 0,
     },
   },
+  stats: {
+    fishCaught: 0,
+    timePlayed: 0,
+  },
   fishLength: function () {
     return Object.values(this.fish).reduce((a, b) => a + b, 0);
   },
@@ -31,11 +35,9 @@ let Player = {
     this.fish = {};
     this.scrap = {};
     this.money = new Decimal(0);
-    Object.keys(this.upgrades).forEach((key) => {
-      if (getUpgradeClass(key) === "normal") {
-        this.upgrades[key] = 0;
-      }
-    });
+    Object.keys(this.upgrades.normal).forEach((key) => {
+      this.upgrades.normal[key] = 0;
+    })
     Object.keys(this.craftables).forEach((key) => {
       this.craftables[key] = 0;
     });

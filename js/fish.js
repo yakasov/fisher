@@ -7,6 +7,7 @@ let Fish = {
       return;
     }
 
+    Player.stats.fishCaught++;
     let randomFish = this.getRandomFish();
 
     let scrapOrFish = Object.keys(SCRAP_DICT).includes(randomFish[0])

@@ -76,7 +76,6 @@ function addUpgradeAmount(upgrade, amount) {
 }
 
 function buyUpgrade(upgrade) {
-  debugger;
   let upgradeCost = getUpgradeCost(upgrade);
   let upgradeClass = getUpgradeClass(upgrade);
 
