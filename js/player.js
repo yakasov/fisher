@@ -23,6 +23,7 @@ let Player = {
   },
   stats: {
     fishCaught: 0,
+    prestigeCount: 0,
     timePlayed: 0,
   },
   fishLength: function () {

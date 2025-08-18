@@ -11,13 +11,22 @@ let Prestige = {
       }
     });
   },
+  getMilestoneEffect: function (id) {
+    // Need to null check for a non-achieved milestone when using this func
+    if (this.hasMilestone(id)) return this.milestones[id].eff();
+    return null;
+  },
   hasMilestone: function (id) {
-    return this.achievedMilestones.includes(id);
+    return this.achievedMilestones.includes(id.toString());
   },
   milestones: {
     0: {
       eff: () => {},
       req: () => Player.totalPrestigePoints.gte(1),
+    },
+    1: {
+      eff: () => 1 + Math.log(Player.prestigePoints),
+      req: () => Player.stats.prestigeCount >= 3,
     },
   },
   prestige: function () {
@@ -26,6 +35,7 @@ let Prestige = {
       Player.totalPrestigePoints = Player.totalPrestigePoints.add(
         this.prestigeGain()
       );
+      Player.stats.prestigeCount++;
       this.checkMilestones();
       Player.reset();
     }

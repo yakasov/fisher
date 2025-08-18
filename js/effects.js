@@ -3,16 +3,16 @@ let Effects = {
     return 20 + this.fishBucketSize();
   },
   scrapMax: function () {
-    return this.fishMax() / 2;
+    return Math.floor(this.fishMax() / 2);
   },
   fishBucketSize: function () {
-    return getUpgradeAmount("fishingCapacity") * 10;
+    return Math.floor(getUpgradeAmount("fishingCapacity") * 10 * (Prestige.getMilestoneEffect(1) ?? 1));
   },
   fishingDelay: function () {
     return 3 * 0.875 ** getUpgradeAmount("fishingDelay");
   },
   fishingValueMult: function () {
-    return 1 * 1.25 ** getUpgradeAmount("fishingValue");
+    return 1 * ((Prestige.getMilestoneEffect(1) ?? 4) / 4) * 1.25 ** getUpgradeAmount("fishingValue");
   },
   autofishingInterval: function () {
     return (

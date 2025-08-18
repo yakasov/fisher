@@ -57,25 +57,34 @@ let Display = {
       const upperItemName =
         dict[itemName].name ??
         itemName.charAt(0).toUpperCase() + itemName.slice(1);
+        
       text += `
       <div class="fish-line">
         <div class="fish-info">
-          <img src="images/${itemName}.png" class="fish-img" />
-          <span class="fish-name">${upperItemName}</span>
-          <span class="fish-amount">${itemAmount}</span>
+          <img src="images/${itemName}.png" class="fish-img" title="${upperItemName}"/>
+          
+          <span class="fish-amount">${this.getFishAmountDisplay(itemAmount)}</span>
+          <button class="fish-sell-btn fish-grid" onclick="FishFunctions.sellFish('${itemName}')" ${
+            itemAmount === 0 || dict[itemName].noSell ? 'disabled=""' : ""
+          }>${
+            dict[itemName].noSell
+              ? "No sale"
+              : "$" + f(dict[itemName].value * Effects.fishingValueMult())
+          }</button>
         </div>
-        <button class="fish-sell-btn" onclick="FishFunctions.sellFish('${itemName}')" ${
-        itemAmount === 0 || dict[itemName].noSell ? 'disabled=""' : ""
-      }>${
-        dict[itemName].noSell
-          ? "Cannot sell"
-          : "Sell for " +
-            f(dict[itemName].value * Effects.fishingValueMult()) +
-            "$"
-      }</button></div>`;
+      </div>`;
     });
 
     return text;
+  },
+  getFishAmountDisplay: function (amount) {
+    if (amount >= 100) {
+      return "99+";
+    } else if (amount >= 10) {
+      return ` ${amount}`;
+    };
+
+    return `  ${amount}`;
   },
   updateDisplays: function () {
     this.elInner("money-display", "text", `You have ${f(Player.money)}$.`);
@@ -122,10 +131,26 @@ let Display = {
     this.elInner("scrap-amounts", "html", this.getFishDisplay("scrap"));
     this.elDisabled("sellall-button", Player.fishLength() === 0);
 
-    this.elGenericUpgrade("fishingDelay", "$", `( ${f(Effects.fishingDelay() / 3)}x )`);
-    this.elGenericUpgrade("fishingValue", "$", `( ${f(Effects.fishingValueMult())}x )`);
-    this.elGenericUpgrade("fishingCapacity", "$", `( +${f(Effects.fishBucketSize())} )`);
-    this.elGenericUpgrade("handmadeBoost", "$", `( ${f(Effects.metalfisherOverclock())}x )`);
+    this.elGenericUpgrade(
+      "fishingDelay",
+      "$",
+      `( ${f(Effects.fishingDelay() / 3)}x )`
+    );
+    this.elGenericUpgrade(
+      "fishingValue",
+      "$",
+      `( ${f(Effects.fishingValueMult())}x )`
+    );
+    this.elGenericUpgrade(
+      "fishingCapacity",
+      "$",
+      `( +${f(Effects.fishBucketSize())} )`
+    );
+    this.elGenericUpgrade(
+      "handmadeBoost",
+      "$",
+      `( ${f(Effects.metalfisherOverclock())}x )`
+    );
 
     this.elInner(
       "crafting-metalfisher-amount",
@@ -152,7 +177,15 @@ let Display = {
       this.elClass("prestige-tab-button", "hidden", "remove");
     }
 
-    this.elGenericUpgrade("cheaperUpgrades", " PP", `( -${f(12.5 * getUpgradeAmount("cheaperUpgrades"))}% )`);
-    this.elGenericUpgrade("bonusFishChance", " PP", ` ( +${f(10 * getUpgradeAmount("bonusFishChance"), 0)}% )`);
+    this.elGenericUpgrade(
+      "cheaperUpgrades",
+      " PP",
+      `( -${f(12.5 * getUpgradeAmount("cheaperUpgrades"))}% )`
+    );
+    this.elGenericUpgrade(
+      "bonusFishChance",
+      " PP",
+      ` ( +${f(10 * getUpgradeAmount("bonusFishChance"), 0)}% )`
+    );
   },
 };
