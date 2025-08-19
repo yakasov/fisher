@@ -245,7 +245,7 @@ button {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 1.5rem;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 2rem auto;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.02);
@@ -306,6 +306,8 @@ button {
   text-align: center;
   width: 100%;
   flex: 1;
+  line-height: 20px;
+  margin-bottom: 0.5rem;
 }
 
 .permit-cost {
@@ -314,6 +316,7 @@ button {
   text-align: center;
   width: 100%;
   bottom: 0;
+  line-height: 20px;
 }
 
 .prestige-btn {
@@ -363,7 +366,7 @@ button {
   border-radius: 7px;
   line-height: 1.3rem;
   padding: 0.4rem 1.2rem;
-  min-height: 70px;
+  min-height: 90px;
   position: relative;
 
   > div:first-child {
@@ -391,7 +394,7 @@ button {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 7px;
   padding: 0.4rem 1.2rem;
-  min-height: 70px;
+  min-height: 90px;
 
   &[disabled] {
     background: #181818;

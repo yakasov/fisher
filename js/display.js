@@ -30,7 +30,7 @@ let Display = {
     this.elInner(
       `${upgrade}-btn`,
       "text",
-      amount < max ? `Buy for ${f(cost)}${currencyString}` : `Maxed!`
+      amount < max ? `Buy for ${currencyString}${f(cost)}` : `Maxed!`
     );
     this.elDisabled(`${upgrade}-btn`, amount >= max);
 
@@ -57,20 +57,22 @@ let Display = {
       const upperItemName =
         dict[itemName].name ??
         itemName.charAt(0).toUpperCase() + itemName.slice(1);
-        
+
       text += `
       <div class="fish-line">
         <div class="fish-info">
           <img src="images/${itemName}.png" class="fish-img" title="${upperItemName}"/>
           
-          <span class="fish-amount">${this.getFishAmountDisplay(itemAmount)}</span>
-          <button class="fish-sell-btn fish-grid" onclick="FishFunctions.sellFish('${itemName}')" ${
-            itemAmount === 0 || dict[itemName].noSell ? 'disabled=""' : ""
-          }>${
-            dict[itemName].noSell
-              ? "No sale"
-              : "$" + f(dict[itemName].value * Effects.fishingValueMult())
-          }</button>
+          <span class="fish-amount">${this.getFishAmountDisplay(
+            itemAmount
+          )}</span>
+          <button class="fish-sell-btn fish-grid" onclick="Fish.sellFish('${itemName}')" ${
+        itemAmount === 0 || dict[itemName].noSell ? 'disabled=""' : ""
+      }>${
+        dict[itemName].noSell
+          ? "No sale"
+          : "$" + f(dict[itemName].value * Effects.fishingValueMult())
+      }</button>
         </div>
       </div>`;
     });
@@ -82,12 +84,12 @@ let Display = {
       return "99+";
     } else if (amount >= 10) {
       return ` ${amount}`;
-    };
+    }
 
     return `  ${amount}`;
   },
   updateDisplays: function () {
-    this.elInner("money-display", "text", `You have ${f(Player.money)}$.`);
+    this.elInner("money-display", "text", `You have $${f(Player.money)}.`);
     this.elInner(
       "fish-count-display",
       "text",
@@ -123,6 +125,19 @@ let Display = {
       "prestige-points",
       "text",
       `You have ${f(Player.prestigePoints, 0)} Prestige Points.`
+    );
+    this.elInner(
+      "prestige-count",
+      "text",
+      `You have prestiged ${Player.stats.prestigeCount} times.`
+    );
+
+    this.elInner(
+      "prestige-milestone-1-stats",
+      "text",
+      `Boosting bucket size by ${
+        f(Prestige.getMilestoneEffect(1)) ?? 1
+      }x and fish value by ${f(1 + (Prestige.getMilestoneEffect(1) ?? 4) / 4)}x`
     );
   },
   updateOnDemand: function () {
@@ -175,6 +190,10 @@ let Display = {
 
     if (Permits.hasPermit(0)) {
       this.elClass("prestige-tab-button", "hidden", "remove");
+    }
+
+    if (Permits.hasPermit(1)) {
+      this.elClass("tournaments-tab-button", "hidden", "remove");
     }
 
     this.elGenericUpgrade(

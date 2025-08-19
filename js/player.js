@@ -38,13 +38,20 @@ let Player = {
     this.money = new Decimal(0);
     Object.keys(this.upgrades.normal).forEach((key) => {
       this.upgrades.normal[key] = 0;
-    })
+    });
     Object.keys(this.craftables).forEach((key) => {
       this.craftables[key] = 0;
     });
 
-    if (Prestige.hasMilestone("0")) {
+    if (Prestige.hasMilestone(2)) {
+      this.craftables.metalfisher = Math.min(
+        this.craftables.metalfisher,
+        Player.stats.prestigeCount
+      );
+    } else if (Prestige.hasMilestone(0)) {
       this.craftables.metalfisher = 1;
     }
+
+    Display.updateOnDemand();
   },
 };

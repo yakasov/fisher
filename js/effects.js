@@ -6,13 +6,21 @@ let Effects = {
     return Math.floor(this.fishMax() / 2);
   },
   fishBucketSize: function () {
-    return Math.floor(getUpgradeAmount("fishingCapacity") * 10 * (Prestige.getMilestoneEffect(1) ?? 1));
+    return Math.floor(
+      getUpgradeAmount("fishingCapacity") *
+        10 *
+        (Prestige.getMilestoneEffect(1) ?? 1)
+    );
   },
   fishingDelay: function () {
     return 3 * 0.875 ** getUpgradeAmount("fishingDelay");
   },
   fishingValueMult: function () {
-    return 1 * ((Prestige.getMilestoneEffect(1) ?? 4) / 4) * 1.25 ** getUpgradeAmount("fishingValue");
+    return (
+      1 *
+      (1 + (Prestige.getMilestoneEffect(1) ?? 4) / 4) *
+      1.25 ** getUpgradeAmount("fishingValue")
+    );
   },
   autofishingInterval: function () {
     return (

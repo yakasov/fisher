@@ -26,7 +26,11 @@ let Prestige = {
     },
     1: {
       eff: () => 1 + Math.log(Player.prestigePoints),
-      req: () => Player.stats.prestigeCount >= 3,
+      req: () => Player.totalPrestigePoints.gte(20),
+    },
+    2: {
+      eff: () => 5,
+      req: () => Player.stats.prestigeCount >= 10,
     },
   },
   prestige: function () {
@@ -41,6 +45,9 @@ let Prestige = {
     }
   },
   prestigeGain: function () {
-    return Math.floor(Player.fishLength() / 20 + Player.scrapLength() / 10);
+    return (
+      Math.floor(Player.fishLength() / 20 + Player.scrapLength() / 10) *
+      (this.getMilestoneEffect(2) ?? 1)
+    );
   },
 };
