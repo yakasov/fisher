@@ -42,9 +42,17 @@ function loadGame() {
     ([k, v]) => (PERMANENTS[k].bought = v)
   );
   Player.prestigePoints = new Decimal(loadedSave.prestigePoints);
+  Player.saveTime = loadedSave.saveTime;
   Player.stats = JSON.parse(loadedSave.stats ?? "{}");
   Player.totalPrestigePoints = new Decimal(loadedSave.totalPrestigePoints);
   Player.upgrades = JSON.parse(loadedSave.upgrades);
+
+  const currentTime = Math.floor(Date.now() / 1000);
+  const timePassed = (currentTime - loadedSave.saveTime) * 10;
+
+  for (let i = 0; i < timePassed; i++) {
+    gameLoop(false);
+  }
 
   loadPermits();
   Prestige.checkMilestones();

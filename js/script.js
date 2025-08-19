@@ -35,10 +35,13 @@ function updateFishingRecharge() {
   if (Fish.fishingRecharge < 0) Fish.fishingRecharge = 0;
 }
 
-function gameLoop() {
-  currentTime += 0.025;
-  Player.stats.timePlayed += 0.025;
-  Display.updateDisplays();
+function gameLoop(isNormalLoop = true) {
+  if (isNormalLoop) {
+    currentTime += 0.025;
+    Player.stats.timePlayed += 0.025;
+    Display.updateDisplays();
+  }
+  
   updateFishingRecharge();
   Fish.autoFish();
 
