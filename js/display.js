@@ -23,9 +23,9 @@ let Display = {
     document.getElementById(elName).onclick = func;
   },
   elGenericUpgrade: function (upgrade, currencyString, multText = null) {
-    let cost = getUpgradeCost(upgrade);
-    let amount = getUpgradeAmount(upgrade);
-    let max = getUpgradeMax(upgrade);
+    let cost = Upgrades.getUpgradeCost(upgrade);
+    let amount = Upgrades.getUpgradeAmount(upgrade);
+    let max = Upgrades.getUpgradeMax(upgrade);
 
     this.elInner(
       `${upgrade}-btn`,
@@ -110,7 +110,7 @@ let Display = {
       "fish-max-display",
       "html",
       `You can hold up to ${Effects.fishMax()} fish.${
-        PERMANENTS.scrapfishing.bought
+        Upgrades.permanents.scrapfishing.bought
           ? `<br />This also lets you hold up to ${Effects.scrapMax()} scrap items.`
           : ""
       }`
@@ -180,7 +180,7 @@ let Display = {
       `Craft for ${Craft.craftCost("metalfisher")} Metal`
     );
 
-    if (PERMANENTS.scrapfishing.bought) {
+    if (Upgrades.permanents.scrapfishing.bought) {
       this.elDisabled("scrapfishing-upgrade", true);
       this.elInner("scrapfishing-upgrade", "text", "Bought!");
 
@@ -198,13 +198,18 @@ let Display = {
 
     this.elGenericUpgrade(
       "cheaperUpgrades",
-      " PP",
-      `( -${f(12.5 * getUpgradeAmount("cheaperUpgrades"))}% )`
+      "PP",
+      `( -${f(12.5 * Upgrades.getUpgradeAmount("cheaperUpgrades"))}% )`
     );
     this.elGenericUpgrade(
       "bonusFishChance",
-      " PP",
-      ` ( +${f(10 * getUpgradeAmount("bonusFishChance"), 0)}% )`
+      "PP",
+      ` ( +${f(10 * Upgrades.getUpgradeAmount("bonusFishChance"), 0)}% )`
+    );
+    this.elGenericUpgrade(
+      "prestigePointsMultiplier",
+      "$",
+      ` ( ${f(1.1 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier"), 0)}x )`
     );
   },
 };

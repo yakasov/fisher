@@ -1,7 +1,7 @@
 function createSave() {
   const permanentsToSave = {};
 
-  Object.entries(PERMANENTS).forEach(
+  Object.entries(Upgrades.permanents).forEach(
     ([k, v]) => (permanentsToSave[k] = v.bought)
   );
 
@@ -30,7 +30,6 @@ function loadGame() {
   if (!rawSave) return;
 
   const loadedSave = JSON.parse(atob(rawSave));
-  console.log(loadedSave);
 
   Player.allowedFish = loadedSave.allowedFish;
   Player.craftables = JSON.parse(loadedSave.craftables);
@@ -39,7 +38,7 @@ function loadGame() {
   Player.money = new Decimal(loadedSave.money);
   Permits.boughtPermits = JSON.parse(loadedSave.permits);
   Object.entries(loadedSave.permanentsToSave).forEach(
-    ([k, v]) => (PERMANENTS[k].bought = v)
+    ([k, v]) => (Upgrades.permanents[k].bought = v)
   );
   Player.prestigePoints = new Decimal(loadedSave.prestigePoints);
   Player.saveTime = loadedSave.saveTime;

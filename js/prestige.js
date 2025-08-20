@@ -47,7 +47,8 @@ let Prestige = {
   prestigeGain: function () {
     return (
       Math.floor(Player.fishLength() / 20 + Player.scrapLength() / 10) *
-      (this.getMilestoneEffect(2) ?? 1)
+      (this.getMilestoneEffect(2) ?? 1) *
+      (1.1 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier"))
     );
   },
 };

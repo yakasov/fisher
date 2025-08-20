@@ -4,24 +4,6 @@ let auto = {
   metalfisher: 0,
 };
 
-function buyPermanent(upgrade) {
-  const u = PERMANENTS[upgrade];
-  if (Player.money.gte(u) && !u.bought) {
-    Player.money = Player.money.sub(u.cost);
-    u.bought = true;
-
-    switch (upgrade) {
-      case "scrapfishing":
-        Player.allowedFish.push("scrap");
-        break;
-      default:
-        break;
-    }
-  }
-
-  Display.updateOnDemand();
-}
-
 function updateFishingRecharge() {
   const goFishButton = document.getElementById("gofish-button");
   if (Fish.fishingRecharge === 0) {

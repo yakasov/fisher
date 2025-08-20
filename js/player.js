@@ -19,6 +19,7 @@ let Player = {
     prestige: {
       cheaperUpgrades: 0,
       bonusFishChance: 0,
+      prestigePointsMultiplier: 0
     },
   },
   stats: {

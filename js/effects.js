@@ -7,19 +7,19 @@ let Effects = {
   },
   fishBucketSize: function () {
     return Math.floor(
-      getUpgradeAmount("fishingCapacity") *
+      Upgrades.getUpgradeAmount("fishingCapacity") *
         10 *
         (Prestige.getMilestoneEffect(1) ?? 1)
     );
   },
   fishingDelay: function () {
-    return 3 * 0.875 ** getUpgradeAmount("fishingDelay");
+    return 3 * 0.875 ** Upgrades.getUpgradeAmount("fishingDelay");
   },
   fishingValueMult: function () {
     return (
       1 *
       (1 + (Prestige.getMilestoneEffect(1) ?? 4) / 4) *
-      1.25 ** getUpgradeAmount("fishingValue")
+      1.25 ** Upgrades.getUpgradeAmount("fishingValue")
     );
   },
   autofishingInterval: function () {
@@ -29,6 +29,6 @@ let Effects = {
     );
   },
   metalfisherOverclock: function () {
-    return 1 + 0.125 * getUpgradeAmount("handmadeBoost");
+    return 1 + 0.125 * Upgrades.getUpgradeAmount("handmadeBoost");
   },
 };

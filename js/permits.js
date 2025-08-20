@@ -18,7 +18,7 @@ let Permits = {
     0: {
       buy: () => (Player.money = Player.money.sub(250)),
       func: () => Player.allowedFish.push("lake"),
-      req: () => Player.money.gte(250) && PERMANENTS.scrapfishing.bought,
+      req: () => Player.money.gte(250) && Upgrades.permanents.scrapfishing.bought,
     },
     1: {
       buy: () => (Player.prestigePoints = Player.prestigePoints.sub(100)),

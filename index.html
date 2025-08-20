@@ -112,7 +112,7 @@
                     <button
                       class="upgrade-btn"
                       id="scrapfishing-upgrade"
-                      onclick="buyPermanent('scrapfishing')"
+                      onclick="Upgrades.buyPermanent('scrapfishing')"
                     >
                       Buy for $50
                     </button>
@@ -217,8 +217,7 @@
               <div class="prestige-upgrade-row">
                 <div>
                   <b>Cheaper Fishing Upgrades</b><br />
-                  Reduces the cost of fishing upgrades by 12.5%<br />(additive,
-                  max -75%).
+                  Reduces the cost of fishing upgrades by 12.5%
                 </div>
                 <div id="cheaperUpgrades-mult" style="margin-right: 10px">
                   ( -0% )
@@ -234,8 +233,7 @@
               <div class="prestige-upgrade-row">
                 <div>
                   <b>Bonus Fish Chance</b><br />
-                  Add a 10% chance to get a bonus fish when you go fishing.<br />(additive,
-                  max 100%).
+                  Add a 10% chance to get a bonus fish when you go fishing.
                 </div>
                 <div id="bonusFishChance-mult" style="margin-right: 10px">
                   ( -0% )
@@ -246,6 +244,22 @@
                   onclick="buyUpgrade('bonusFishChance')"
                 >
                   Buy (8 PP)
+                </button>
+              </div>
+              <div class="prestige-upgrade-row">
+                <div>
+                  <b>PP Multiplier</b><br />
+                  Multiply PP gain by 1.1x per level.
+                </div>
+                <div id="prestigePointsMultiplier-mult" style="margin-right: 10px">
+                  ( 1.0x )
+                </div>
+                <button
+                  class="upgrade-btn"
+                  id="prestigePointsMultiplier-btn"
+                  onclick="buyUpgrade('prestigePointsMultiplier')"
+                >
+                  Buy ($1,000)
                 </button>
               </div>
             </div>

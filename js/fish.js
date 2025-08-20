@@ -18,9 +18,9 @@ let Fish = {
         ? (scrapOrFish[randomFish[0]] = 1)
         : (scrapOrFish[randomFish[0]] = scrapOrFish[randomFish[0]] + 1);
 
-    if (!bonus && getUpgradeAmount("bonusFishChance") > 0) {
+    if (!bonus && Upgrades.getUpgradeAmount("bonusFishChance") > 0) {
       let bonusChance = Math.random() * 100;
-      if (bonusChance <= getUpgradeAmount("bonusFishChance") * 10) {
+      if (bonusChance <= Upgrades.getUpgradeAmount("bonusFishChance") * 10) {
         return this.goFish(auto, true);
       } 
     }
