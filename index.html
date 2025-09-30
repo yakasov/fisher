@@ -38,6 +38,9 @@
       >
         Tournaments
       </button>
+      <button class="tab-btn" onclick="switchTab('statistics-tab')">
+        Statistics
+      </button>
       <button class="tab-btn" onclick="switchTab('settings-tab')">
         Settings
       </button>
@@ -62,7 +65,7 @@
                     <button
                       class="fish-sell-btn"
                       id="fishingDelay-btn"
-                      onclick="buyUpgrade('fishingDelay')"
+                      onclick="Upgrades.buyUpgrade('fishingDelay')"
                     >
                       Buy for $5
                     </button>
@@ -75,7 +78,7 @@
                     <button
                       class="fish-sell-btn"
                       id="fishingValue-btn"
-                      onclick="buyUpgrade('fishingValue')"
+                      onclick="Upgrades.buyUpgrade('fishingValue')"
                     >
                       Buy for $10
                     </button>
@@ -88,7 +91,7 @@
                     <button
                       class="fish-sell-btn"
                       id="fishingCapacity-btn"
-                      onclick="buyUpgrade('fishingCapacity')"
+                      onclick="Upgrades.buyUpgrade('fishingCapacity')"
                     >
                       Buy for $10
                     </button>
@@ -167,7 +170,7 @@
                     <button
                       class="fish-sell-btn"
                       id="handmadeBoost-btn"
-                      onclick="buyUpgrade('handmadeBoost')"
+                      onclick="Upgrades.buyUpgrade('handmadeBoost')"
                     >
                       Buy for $50
                     </button>
@@ -200,7 +203,7 @@
       <div class="center" style="margin-top: 2rem">
         <p id="prestige-gain">You can Prestige for x Prestige Points.</p>
         <p style="line-height: 0px">
-          Your Prestige gain is based off of the total amount of Scrap and Fish
+          Your Prestige gain is based on the total amount of Scrap and Fish
           you have.
         </p>
         <p class="prestige-points">
@@ -209,7 +212,6 @@
         <button class="prestige-btn" onclick="Prestige.prestige()">
           Prestige
         </button>
-        <p id="prestige-count">0</p>
         <div class="prestige-main-row">
           <section class="curved-panel">
             <h3>Upgrades</h3>
@@ -219,48 +221,57 @@
                   <b>Cheaper Fishing Upgrades</b><br />
                   Reduces the cost of fishing upgrades by 12.5%
                 </div>
-                <div id="cheaperUpgrades-mult" style="margin-right: 10px">
-                  ( -0% )
+                <div>
+                  <button
+                    class="upgrade-btn"
+                    id="cheaperUpgrades-btn"
+                    onclick="Upgrades.buyUpgrade('cheaperUpgrades')"
+                  >
+                    Buy (5 PP)
+                  </button>
+                  <div id="cheaperUpgrades-mult" style="margin-top: 10px">
+                    ( -0% )
+                  </div>
                 </div>
-                <button
-                  class="upgrade-btn"
-                  id="cheaperUpgrades-btn"
-                  onclick="buyUpgrade('cheaperUpgrades')"
-                >
-                  Buy (5 PP)
-                </button>
               </div>
               <div class="prestige-upgrade-row">
                 <div>
                   <b>Bonus Fish Chance</b><br />
                   Add a 10% chance to get a bonus fish when you go fishing.
                 </div>
-                <div id="bonusFishChance-mult" style="margin-right: 10px">
-                  ( -0% )
+                <div>
+                  <button
+                    class="upgrade-btn"
+                    id="bonusFishChance-btn"
+                    onclick="Upgrades.buyUpgrade('bonusFishChance')"
+                  >
+                    Buy (8 PP)
+                  </button>
+                  <div id="bonusFishChance-mult" style="margin-top: 10px">
+                    ( -0% )
+                  </div>
                 </div>
-                <button
-                  class="upgrade-btn"
-                  id="bonusFishChance-btn"
-                  onclick="buyUpgrade('bonusFishChance')"
-                >
-                  Buy (8 PP)
-                </button>
               </div>
               <div class="prestige-upgrade-row">
                 <div>
                   <b>PP Multiplier</b><br />
-                  Multiply PP gain by 1.1x per level.
+                  Multiply PP gain by 1.5x per level.
                 </div>
-                <div id="prestigePointsMultiplier-mult" style="margin-right: 10px">
-                  ( 1.0x )
+                <div>
+                  <button
+                    class="upgrade-btn"
+                    id="prestigePointsMultiplier-btn"
+                    onclick="Upgrades.buyUpgrade('prestigePointsMultiplier')"
+                  >
+                    Buy ($1,000)
+                  </button>
+                  <div
+                    id="prestigePointsMultiplier-mult"
+                    style="margin-top: 10px"
+                  >
+                    ( 1.0x )
+                  </div>
                 </div>
-                <button
-                  class="upgrade-btn"
-                  id="prestigePointsMultiplier-btn"
-                  onclick="buyUpgrade('prestigePointsMultiplier')"
-                >
-                  Buy ($1,000)
-                </button>
               </div>
             </div>
           </section>
@@ -288,7 +299,11 @@
                   <div class="permit-title">20 Total Prestige Points</div>
                   <div class="permit-content">
                     Passively boosts stats depending on current PP. <br />
-                    <span id="prestige-milestone-1-stats" style="font-size: 12px">Boosting X by Y</span>
+                    <span
+                      id="prestige-milestone-1-stats"
+                      style="font-size: 12px"
+                      >Boosting X by Y</span
+                    >
                   </div>
                 </div>
               </div>
@@ -412,6 +427,16 @@
 
     <div id="tournaments-tab" class="tab-content" style="display: none"></div>
 
+    <div id="statistics-tab" class="tab-content" style="display: none">
+      <div class="center" style="margin-top: 2rem">
+        <h2>Statistics</h2>
+        <p><b>Time Played:</b> <span id="stats-time-played">xyz</span></p>
+        <p><b>Fish Caught:</b> <span id="stats-fish-caught">xyz</span></p>
+        <br />
+        <p><b>Prestige Count:</b> <span id="stats-prestige-count">xyz</span></p>
+      </div>
+    </div>
+
     <div id="settings-tab" class="tab-content" style="display: none">
       <div class="center" style="margin-top: 2rem">
         <h2>Settings</h2>
@@ -432,9 +457,7 @@
           rows="6"
           placeholder="Your save data will appear here for export/import."
         ></textarea>
-        <p>
-          Time will tick whilst offline at 25% efficiency!
-        </p>
+        <p>Time will tick whilst offline at 25% efficiency!</p>
       </div>
     </div>
   </body>

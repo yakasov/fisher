@@ -35,7 +35,7 @@ body {
 .upgrade-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   gap: 1rem;
 }
 
@@ -183,10 +183,6 @@ button {
   }
 }
 
-.upgrade-group {
-  margin-bottom: 2.5rem;
-}
-
 .upgrade-btn {
   background: #3a3b3a;
   color: #ffe082;
@@ -245,7 +241,7 @@ button {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 1.5rem;
-  max-width: 1440px;
+  max-width: 90%;
   margin: 2rem auto;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.02);

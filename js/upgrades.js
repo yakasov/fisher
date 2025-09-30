@@ -2,28 +2,28 @@ let Upgrades = {
   upgrades: {
     normal: {
       fishingDelay: {
-        cost: () => new Decimal(5 * 1.8 ** Upgrades.getUpgradeAmount("fishingDelay")).mul(
+        cost: () =>
+          new Decimal(5 * 1.8 ** Upgrades.getUpgradeAmount("fishingDelay")).mul(
             1 - 0.125 * Upgrades.getUpgradeAmount("cheaperUpgrades")
-          )
-        
+          ),
       },
       fishingValue: {
         cost: () =>
-          new Decimal(10 * 1.75 ** Upgrades.getUpgradeAmount("fishingValue")).mul(
-            1 - 0.125 * Upgrades.getUpgradeAmount("cheaperUpgrades")
-          ),
+          new Decimal(
+            10 * 1.75 ** Upgrades.getUpgradeAmount("fishingValue")
+          ).mul(1 - 0.125 * Upgrades.getUpgradeAmount("cheaperUpgrades")),
       },
       fishingCapacity: {
         cost: () =>
-          new Decimal(10 * 1.5 ** Upgrades.getUpgradeAmount("fishingCapacity")).mul(
-            1 - 0.125 * Upgrades.getUpgradeAmount("cheaperUpgrades")
-          ),
+          new Decimal(
+            10 * 1.5 ** Upgrades.getUpgradeAmount("fishingCapacity")
+          ).mul(1 - 0.125 * Upgrades.getUpgradeAmount("cheaperUpgrades")),
       },
       handmadeBoost: {
         cost: () =>
-          new Decimal(50 * 1.5 ** Upgrades.getUpgradeAmount("handmadeBoost")).mul(
-            1 - 0.125 * Upgrades.getUpgradeAmount("cheaperUpgrades")
-          ),
+          new Decimal(
+            50 * 1.5 ** Upgrades.getUpgradeAmount("handmadeBoost")
+          ).mul(1 - 0.125 * Upgrades.getUpgradeAmount("cheaperUpgrades")),
       },
     },
 
@@ -39,7 +39,7 @@ let Upgrades = {
         max: 10,
       },
       prestigePointsMultiplier: {
-        classOverride: "normal",
+        costOverride: "normal",
         cost: () =>
           new Decimal(
             1000 * 2 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier")
@@ -77,7 +77,10 @@ let Upgrades = {
   },
   buyUpgrade: function (upgrade) {
     let upgradeCost = this.getUpgradeCost(upgrade);
-    let upgradeClass = upgrade.classOverride ?? this.getUpgradeClass(upgrade);
+    let upgradeClass = this.getUpgradeClass(upgrade);
+    if (this.upgrades[upgradeClass][upgrade].costOverride) {
+      upgradeClass = this.upgrades[upgradeClass][upgrade].costOverride;
+    }
 
     if (upgradeClass === "normal" && Player.money.gte(upgradeCost)) {
       Player.money = Player.money.sub(upgradeCost);

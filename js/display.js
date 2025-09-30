@@ -126,11 +126,6 @@ let Display = {
       "text",
       `You have ${f(Player.prestigePoints, 0)} Prestige Points.`
     );
-    this.elInner(
-      "prestige-count",
-      "text",
-      `You have prestiged ${Player.stats.prestigeCount} times.`
-    );
 
     this.elInner(
       "prestige-milestone-1-stats",
@@ -139,6 +134,20 @@ let Display = {
         f(Prestige.getMilestoneEffect(1)) ?? 1
       }x and fish value by ${f(1 + (Prestige.getMilestoneEffect(1) ?? 4) / 4)}x`
     );
+
+    this.elInner(
+      "stats-time-played",
+      "text",
+      [
+        parseInt(Player.stats.timePlayed / 60 / 60),
+        parseInt((Player.stats.timePlayed / 60) % 60),
+        parseInt((Player.stats.timePlayed) % 60),
+      ]
+        .join(":")
+        .replace(/\b(\d)\b/g, "0$1")
+    );
+    this.elInner("stats-fish-caught", "text", Player.stats.fishCaught);
+    this.elInner("stats-prestige-count", "text", Player.stats.prestigeCount);
   },
   updateOnDemand: function () {
     this.elInner("normal-amounts", "html", this.getFishDisplay("normal"));
@@ -209,7 +218,10 @@ let Display = {
     this.elGenericUpgrade(
       "prestigePointsMultiplier",
       "$",
-      ` ( ${f(1.1 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier"), 0)}x )`
+      ` ( ${f(
+        1.5 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier"),
+        2
+      )}x )`
     );
   },
 };
