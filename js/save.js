@@ -14,6 +14,7 @@ function createSave() {
     permits: JSON.stringify(Permits.boughtPermits),
     prestigePoints: Player.prestigePoints.toString(),
     totalPrestigePoints: Player.totalPrestigePoints.toString(),
+    tournaments: JSON.stringify(Player.tournaments),
     saveTime: Math.floor(Date.now() / 1000),
     scrap: Player.scrap,
     stats: JSON.stringify(Player.stats),
@@ -44,6 +45,7 @@ function loadGame() {
   Player.saveTime = loadedSave.saveTime;
   Player.stats = JSON.parse(loadedSave.stats ?? "{}");
   Player.totalPrestigePoints = new Decimal(loadedSave.totalPrestigePoints);
+  Player.tournaments = JSON.parse(loadedSave.tournaments ?? "{}");
   Player.upgrades = JSON.parse(loadedSave.upgrades);
 
   const currentTime = Math.floor(Date.now() / 1000);

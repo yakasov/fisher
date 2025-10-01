@@ -8,6 +8,14 @@ let Player = {
   fish: {},
   scrap: {},
   money: new Decimal(0),
+  tournaments: {
+    completions: {
+      speedFishing: 0,
+      scrapCollector: 0,
+      bigHaul: 0,
+    },
+    timeElapsed: 0,
+  },
   upgrades: {
     normal: {
       fishingDelay: 0,
@@ -19,7 +27,7 @@ let Player = {
     prestige: {
       cheaperUpgrades: 0,
       bonusFishChance: 0,
-      prestigePointsMultiplier: 0
+      prestigePointsMultiplier: 0,
     },
   },
   stats: {

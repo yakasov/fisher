@@ -132,7 +132,11 @@ let Display = {
       "text",
       `Boosting bucket size by ${
         f(Prestige.getMilestoneEffect(1)) ?? 1
-      }x and fish value by ${f(1 + (Prestige.getMilestoneEffect(1) ?? 4) / 4)}x`
+      }x and fish value by ${
+        Prestige.getMilestoneEffect(1)
+          ? f(1 + Prestige.getMilestoneEffect(1) / 4)
+          : 1
+      }x`
     );
 
     this.elInner(
@@ -141,7 +145,7 @@ let Display = {
       [
         parseInt(Player.stats.timePlayed / 60 / 60),
         parseInt((Player.stats.timePlayed / 60) % 60),
-        parseInt((Player.stats.timePlayed) % 60),
+        parseInt(Player.stats.timePlayed % 60),
       ]
         .join(":")
         .replace(/\b(\d)\b/g, "0$1")
@@ -205,6 +209,10 @@ let Display = {
       this.elClass("tournaments-tab-button", "hidden", "remove");
     }
 
+    if (Player.stats.prestigeCount > 0) {
+      this.elClass("prestige-upgrade-multiplier", "hidden", "remove");
+    }
+
     this.elGenericUpgrade(
       "cheaperUpgrades",
       "PP",
@@ -219,7 +227,7 @@ let Display = {
       "prestigePointsMultiplier",
       "$",
       ` ( ${f(
-        1.5 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier"),
+        1.2 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier"),
         2
       )}x )`
     );

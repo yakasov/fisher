@@ -30,19 +30,21 @@ let Upgrades = {
     prestige: {
       cheaperUpgrades: {
         cost: () =>
-          new Decimal(5 * 1.25 ** Upgrades.getUpgradeAmount("cheaperUpgrades")),
+          new Decimal(5 * 1.5 ** Upgrades.getUpgradeAmount("cheaperUpgrades")),
         max: 6,
       },
       bonusFishChance: {
         cost: () =>
-          new Decimal(5 * 1.5 ** Upgrades.getUpgradeAmount("bonusFishChance")),
+          new Decimal(
+            10 * 1.35 ** Upgrades.getUpgradeAmount("bonusFishChance")
+          ),
         max: 10,
       },
       prestigePointsMultiplier: {
         costOverride: "normal",
         cost: () =>
           new Decimal(
-            1000 * 2 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier")
+            1250 * 2.5 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier")
           ),
       },
     },

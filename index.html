@@ -59,7 +59,7 @@
             <div class="upgrade-list">
               <div class="upgrade-group">
                 <div class="upgrade-row">
-                  <div>Reduce fishing recharge delay by 12.5%</div>
+                  <div>Reduce fishing recharge delay by 15%</div>
                   <div>
                     <span id="fishingDelay-mult">( 1.00x )</span>
                     <button
@@ -203,8 +203,8 @@
       <div class="center" style="margin-top: 2rem">
         <p id="prestige-gain">You can Prestige for x Prestige Points.</p>
         <p style="line-height: 0px">
-          Your Prestige gain is based on the total amount of Scrap and Fish
-          you have.
+          Your Prestige gain is based on the total amount of Scrap and Fish you
+          have.
         </p>
         <p class="prestige-points">
           <span id="prestige-points">0</span>
@@ -252,10 +252,13 @@
                   </div>
                 </div>
               </div>
-              <div class="prestige-upgrade-row">
+              <div
+                class="prestige-upgrade-row hidden"
+                id="prestige-upgrade-multiplier"
+              >
                 <div>
                   <b>PP Multiplier</b><br />
-                  Multiply PP gain by 1.5x per level.
+                  Multiply PP gain by 1.2x per level.
                 </div>
                 <div>
                   <button
@@ -296,9 +299,9 @@
                 disabled
               >
                 <div>
-                  <div class="permit-title">20 Total Prestige Points</div>
+                  <div class="permit-title">10 Total Prestige Points</div>
                   <div class="permit-content">
-                    Passively boosts stats depending on current PP. <br />
+                    Passively boosts stats depending on total PP. <br />
                     <span
                       id="prestige-milestone-1-stats"
                       style="font-size: 12px"
@@ -345,7 +348,11 @@
               $250, Scrap Fishing unlocked
             </div>
           </div>
-          <div class="achievable-cell" id="permit-1" disabled>
+          <div
+            class="achievable-cell"
+            id="permit-1"
+            onclick="Permits.buyPermit(1)"
+          >
             <div class="permit-title">Fishing Tournaments</div>
             <div class="permit-content">
               Opens up entry to fishing challenges.
@@ -425,7 +432,67 @@
       </div>
     </div>
 
-    <div id="tournaments-tab" class="tab-content" style="display: none"></div>
+    <div id="tournaments-tab" class="tab-content" style="display: none">
+      <div class="center" style="margin-top: 2rem">
+        <h2>Tournaments</h2>
+        <p>
+          Tournaments are special fishing challenges. Complete them for unique
+          rewards!<br /><br />
+          Entering a challenge will perform a Prestige reset.
+        </p>
+        <div class="curved-panel" style="max-width: 600px; margin: 2rem auto">
+          <div class="upgrade-list">
+            <div class="upgrade-row">
+              <div>
+                <b>Speed Fishing</b><br />
+                Catch 40 fish in under 60 seconds.
+              </div>
+              <div>
+                <button
+                  class="upgrade-btn"
+                  onclick="Tournaments.start('speedFishing')"
+                >
+                  Start
+                </button>
+              </div>
+            </div>
+            <div class="upgrade-row">
+              <div>
+                <b>Scrap Collector</b><br />
+                You cannot catch any fish.<br />
+              </div>
+              <div>
+                <button
+                  class="upgrade-btn"
+                  onclick="Tournaments.start('scrapCollector')"
+                >
+                  Start
+                </button>
+              </div>
+            </div>
+            <div class="upgrade-row">
+              <div>
+                <b>Big Haul</b><br />
+                Sell $1,000,000 worth of fish in a single tournament.
+              </div>
+              <div>
+                <button
+                  class="upgrade-btn"
+                  onclick="Tournaments.start('bigHaul')"
+                >
+                  Start
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          id="tournament-status"
+          class="center"
+          style="margin-top: 2rem"
+        ></div>
+      </div>
+    </div>
 
     <div id="statistics-tab" class="tab-content" style="display: none">
       <div class="center" style="margin-top: 2rem">

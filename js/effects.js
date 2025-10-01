@@ -13,7 +13,7 @@ let Effects = {
     );
   },
   fishingDelay: function () {
-    return 3 * 0.875 ** Upgrades.getUpgradeAmount("fishingDelay");
+    return 3 * 0.85 ** Upgrades.getUpgradeAmount("fishingDelay");
   },
   fishingValueMult: function () {
     return (

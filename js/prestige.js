@@ -25,8 +25,8 @@ let Prestige = {
       req: () => Player.totalPrestigePoints.gte(1),
     },
     1: {
-      eff: () => 1 + Math.log(Player.prestigePoints),
-      req: () => Player.totalPrestigePoints.gte(20),
+      eff: () => 1 + Math.log(Player.totalPrestigePoints),
+      req: () => Player.totalPrestigePoints.gte(10),
     },
     2: {
       eff: () => 5,
@@ -48,7 +48,7 @@ let Prestige = {
     return Math.floor(
       Math.floor(Player.fishLength() / 20 + Player.scrapLength() / 10) *
         (this.getMilestoneEffect(2) ?? 1) *
-        1.5 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier")
+        1.2 ** Upgrades.getUpgradeAmount("prestigePointsMultiplier")
     );
   },
 };
