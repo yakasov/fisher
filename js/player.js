@@ -14,7 +14,9 @@ let Player = {
       scrapCollector: 0,
       bigHaul: 0,
     },
+    currentChallenge: null,
     timeElapsed: 0,
+    timeStarted: 0,
   },
   upgrades: {
     normal: {

@@ -11,6 +11,7 @@
   <body>
     <div id="top-display" class="top-display center">
       <h2 id="money-display">You have $0.</h2>
+      <p id="tournament-warning"></p>
     </div>
 
     <div class="tab-bar center">
@@ -440,48 +441,66 @@
           rewards!<br /><br />
           Entering a challenge will perform a Prestige reset.
         </p>
-        <div class="curved-panel" style="max-width: 600px; margin: 2rem auto">
+        <div class="curved-panel" style="max-width: 900px; margin: 2rem auto">
           <div class="upgrade-list">
-            <div class="upgrade-row">
-              <div>
-                <b>Speed Fishing</b><br />
-                Catch 40 fish in under 60 seconds.
+            <div class="tournament-row">
+              <div class="upgrade-row" style="width: 60%">
+                <div>
+                  <b>Speed Fishing</b><br />
+                  Catch 40 fish in under 60 seconds.
+                </div>
+                <div>
+                  <button
+                    class="upgrade-btn"
+                    onclick="Tournaments.start('speedFishing')"
+                  >
+                    Start
+                  </button>
+                </div>
               </div>
               <div>
-                <button
-                  class="upgrade-btn"
-                  onclick="Tournaments.start('speedFishing')"
-                >
-                  Start
-                </button>
-              </div>
-            </div>
-            <div class="upgrade-row">
-              <div>
-                <b>Scrap Collector</b><br />
-                You cannot catch any fish.<br />
-              </div>
-              <div>
-                <button
-                  class="upgrade-btn"
-                  onclick="Tournaments.start('scrapCollector')"
-                >
-                  Start
-                </button>
+                <b>Reward</b><br />
+                Unlock Ocean fish (and new upgrades!)
               </div>
             </div>
-            <div class="upgrade-row">
-              <div>
-                <b>Big Haul</b><br />
-                Sell $1,000,000 worth of fish in a single tournament.
+            <div class="tournament-row">
+              <div class="upgrade-row" style="width: 60%">
+                <div>
+                  <b>Scrap Collector</b><br />
+                  You cannot catch any fish.<br />
+                </div>
+                <div>
+                  <button
+                    class="upgrade-btn"
+                    onclick="Tournaments.start('scrapCollector')"
+                  >
+                    Start
+                  </button>
+                </div>
               </div>
               <div>
-                <button
-                  class="upgrade-btn"
-                  onclick="Tournaments.start('bigHaul')"
-                >
-                  Start
-                </button>
+                <b>Reward</b><br />
+                Unlock Ocean fish (and new upgrades!)
+              </div>
+            </div>
+            <div class="tournament-row">
+              <div class="upgrade-row" style="width: 60%">
+                <div>
+                  <b>Big Haul</b><br />
+                  Sell $1,000,000 worth of fish in a single tournament.
+                </div>
+                <div>
+                  <button
+                    class="upgrade-btn"
+                    onclick="Tournaments.start('bigHaul')"
+                  >
+                    Start
+                  </button>
+                </div>
+              </div>
+              <div>
+                <b>Reward</b><br />
+                Unlock Ocean fish (and new upgrades!)
               </div>
             </div>
           </div>
@@ -538,6 +557,7 @@
   <script src="./js/display.js"></script>
   <script src="./js/common.js"></script>
   <script src="./js/tabs.js"></script>
+  <script src="./js/tournaments.js"></script>
   <script src="./js/permits.js"></script>
   <script src="./js/prestige.js"></script>
   <script src="./js/player.js"></script>

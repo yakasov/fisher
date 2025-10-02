@@ -20,10 +20,12 @@ function updateFishingRecharge() {
 function gameLoop(isNormalLoop = true) {
   if (isNormalLoop) {
     currentTime += 0.025;
+    Player.tournaments.timeElapsed += 0.025;
     Player.stats.timePlayed += 0.025;
+    Tournaments.exit();
     Display.updateDisplays();
   }
-  
+
   updateFishingRecharge();
   Fish.autoFish();
 

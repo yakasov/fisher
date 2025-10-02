@@ -140,6 +140,14 @@ let Display = {
     );
 
     this.elInner(
+      "tournament-warning",
+      "text",
+      Player.tournaments.currentChallenge
+        ? Tournaments.tournaments[Player.tournaments.currentChallenge].warning()
+        : ""
+    );
+
+    this.elInner(
       "stats-time-played",
       "text",
       [
